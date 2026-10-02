@@ -14,7 +14,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,7 +25,7 @@ jobs:
           python-version: '3.12'
       - name: Install ETL dependencies
         run: python -m pip install -r scripts/requirements.txt
-      - name: Crawl and validate (one Gemini request maximum)
+      - name: Crawl and validate (bounded Gemini retries and fallback)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}

@@ -18,7 +18,7 @@ from your own network; this project does not promise access or game integration.
 ```text
 Curated guides / authorized transcript files
     → GitHub Actions (03:00 UTC / 11:00 China daily)
-    → one Gemini 3.8 Flash structured extraction (GEMINI_MODEL override)
+    → Gemini Flash extraction with bounded transient retries and model fallback
     → strict Pydantic + patch/catalog/provenance checks
     → atomic public/data/meta_comps.json update
     → git commit and push to default branch
@@ -55,7 +55,14 @@ The default extraction model is `gemini-3.8-flash`. Set the local environment
 variable `GEMINI_MODEL` or the repository Actions variable of the same name to
 override it. Unset, empty, or whitespace-only values use the default. Requests use
 the selected model's native thinking defaults. Check model access and free quota
-in your unbilled AI Studio project; there is no automatic model fallback.
+in your unbilled AI Studio project. Candidates are the configured model (default
+`gemini-3.8-flash`), `gemini-3.5-flash`, `gemini-3.5-flash-lite`, and
+`gemini-flash-latest`, deduplicated in order. Each model gets an initial request
+and up to two retries only for HTTP 503/429, waiting 3s then 6s. After exhaustion,
+the next candidate is tried. Invalid output also moves to the next candidate;
+other API errors stop immediately. Valid, matching-patch output returns immediately.
+SDK retries are disabled, so there are at most 12 API calls per run. All candidate
+failures preserve the database and re-raise the final exception.
 
 1. Create a Google AI Studio API key for a project **without enabled billing**.
    Store it as the repository Actions secret `GEMINI_API_KEY`. Never use a
@@ -148,8 +155,8 @@ not an estimate of a guaranteed shop roll cost.
 
 | Service | Free configuration |
 | --- | --- |
-| GitHub | Standard Linux runner; public repository is simplest. One run daily with an eight-minute cap, no stored artifacts or paid runner. Private repositories use their included monthly minutes. |
-| Gemini | Unbilled AI Studio project; defaults to `gemini-3.8-flash` (override with `GEMINI_MODEL`); exactly one request/run, no SDK retry, grounding, paid fallback or runtime requests. If quota is unavailable, refresh fails and the old JSON remains. |
+| GitHub | Standard Linux runner; public repository is simplest. One run daily with a 25-minute cap, no stored artifacts or paid runner. Private repositories use their included monthly minutes. |
+| Gemini | Unbilled AI Studio project; defaults to `gemini-3.8-flash` (override with `GEMINI_MODEL`); up to 4 unique candidates and 3 attempts each (maximum 12 calls), no hidden SDK retry, grounding or runtime requests. Exhausted candidates preserve the old JSON. Confirm free quota for every candidate. |
 | Cloudflare Pages | Free plan, Git integration, framework preset `None`, build command `npm run build`, output directory `out`. No Workers or paid services. |
 | Vercel | Personal noncommercial Hobby project, Next.js preset, `npm run build`, static export. No functions or paid add-ons. |
 
@@ -216,7 +223,7 @@ npm.cmd run dev
 ```text
 人工选择的攻略网页 / 已获授权的视频文字稿
     → GitHub Actions：每日 UTC 03:00（北京时间 11:00）
-    → Gemini 3.8 Flash（可通过 GEMINI_MODEL 覆盖）：每次运行最多一次结构化提取
+    → Gemini Flash：候选模型降级与有上限的503/429重试
     → Pydantic 严格校验字段、版本、目录引用和来源
     → 原子更新 public/data/meta_comps.json
     → git commit / push 到默认分支
@@ -252,7 +259,12 @@ python -m venv .venv
 提取模型默认使用 `gemini-3.8-flash`。本地可设置环境变量 `GEMINI_MODEL`，
 GitHub Actions 可设置同名仓库变量；未设置、空值或纯空白均使用默认模型。
 请求使用模型原生思考配置，不强制旧版的零思考预算。请在未启用计费的 AI Studio
-项目中确认所选模型可用且有免费配额；不会自动改用其他模型。
+项目中确认每个候选模型可用且有免费配额。候选顺序为配置模型（默认
+`gemini-3.8-flash`）、`gemini-3.5-flash`、`gemini-3.5-flash-lite`、
+`gemini-flash-latest`，按顺序去重。每个模型初次请求后，仅对503/429最多重试
+两次，分别等待3秒和6秒；耗尽后切换下一个模型。输出无效也切换下一个模型，
+其他API错误立即终止。输出通过校验且版本匹配就立即返回。SDK隐式重试关闭，
+每次任务最多12次API请求。全部候选失败则抛出最后一个异常，并保留原数据库。
 `--mock` 同样用于离线校验当前示例数据，不会发布真实攻略。
 
 ### 配置真实攻略每日同步
@@ -353,8 +365,8 @@ Pydantic 会拒绝未知或重复的 ID、
 
 | 服务 | 免费配置 |
 | --- | --- |
-| GitHub Actions | 使用标准 Linux 托管运行器。公共仓库配置最简单；每日运行一次，每次最多八分钟，不保存构建产物，不使用付费运行器。私有仓库消耗账户自带的每月免费分钟数。 |
-| Gemini | 使用未启用计费的 AI Studio 项目，默认模型 `gemini-3.8-flash`，可通过 `GEMINI_MODEL` 覆盖。每次提取最多一次请求，无 SDK 重试、联网检索、付费降级方案或前端实时调用。配额不可用时保留旧数据。 |
+| GitHub Actions | 使用标准 Linux 托管运行器。公共仓库配置最简单；每日运行一次，每次最多25分钟，不保存构建产物，不使用付费运行器。私有仓库消耗账户自带的每月免费分钟数。 |
+| Gemini | 使用未启用计费的 AI Studio 项目，默认模型 `gemini-3.8-flash`，可通过 `GEMINI_MODEL` 覆盖。最多4个去重候选，每个最多3次尝试，任务最多12次请求；关闭SDK隐式重试，无联网检索或前端实时调用。全部失败时保留旧数据。确认每个候选的免费配额。 |
 | Cloudflare Pages | Free 计划，连接 Git 仓库，框架预设选择 `None`，构建命令 `npm run build`，输出目录 `out`。无需 Workers 或付费服务。 |
 | Vercel | 个人非商业用途的 Hobby 项目，选择 Next.js 预设，构建命令 `npm run build`，使用静态导出，不配置函数或付费附加服务。 |
 

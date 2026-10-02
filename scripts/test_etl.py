@@ -209,7 +209,7 @@ class ETLTests(unittest.TestCase):
         modules, generate = self.fake_genai()
         error = type("FakeAPIError", (Exception,), {"code": 400})("private-error-body")
         generate.side_effect = error
-        with patch.dict("sys.modules", modules), self.assertLogs("crawler_and_extractor", level="ERROR") as logs:
+        with patch.dict("sys.modules", modules), self.assertLogs("crawler_and_extractor", level="WARNING") as logs:
             with self.assertRaises(type(error)) as raised:
                 extract(catalog, [{"text": "private-guide-text"}], "private-api-key")
         self.assertIs(raised.exception, error)
@@ -228,10 +228,66 @@ class ETLTests(unittest.TestCase):
         invalid = ["not JSON", json.dumps({"patch": catalog.patch, "comps": []}),
                    json.dumps({"patch": catalog.patch, "comps": self.raw["comps"], "extra": True})]
         for response in invalid:
-            with self.subTest(response=response), patch.dict("sys.modules", modules):
+            with self.subTest(response=response), patch.dict("sys.modules", modules), self.assertLogs("crawler_and_extractor", level="WARNING"):
                 generate.return_value.text = response
                 with self.assertRaises(ValidationError):
                     extract(catalog, [], "test-placeholder")
+
+    def test_transient_failure_retries_same_model_then_returns_immediately(self):
+        catalog, _ = load_configuration()
+        for code in (503, 429):
+            with self.subTest(code=code):
+                modules, generate = self.fake_genai()
+                error = type("FakeAPIError", (Exception,), {"code": code})("Transient")
+                response = MagicMock(text=json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]}))
+                generate.side_effect = [error, error, response]
+                with patch.dict("sys.modules", modules), patch.dict("os.environ", {}, clear=True):
+                    with patch("crawler_and_extractor.time.sleep") as sleep, self.assertLogs("crawler_and_extractor", level="WARNING"):
+                        result = extract(catalog, [], "test-placeholder")
+                self.assertEqual(result.patch, catalog.patch)
+                self.assertEqual([c.kwargs["model"] for c in generate.call_args_list], ["gemini-3.8-flash"] * 3)
+                self.assertEqual([c.args[0] for c in sleep.call_args_list], [3, 6])
+
+    def test_exhausted_primary_falls_back_and_deduplicates_override(self):
+        catalog, _ = load_configuration()
+        modules, generate = self.fake_genai()
+        error = type("FakeAPIError", (Exception,), {"code": 503})("Transient")
+        response = MagicMock(text=json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]}))
+        generate.side_effect = [error, error, error, response]
+        with patch.dict("sys.modules", modules), patch.dict("os.environ", {"GEMINI_MODEL": "gemini-3.5-flash"}):
+            with patch("crawler_and_extractor.time.sleep") as sleep, self.assertLogs("crawler_and_extractor", level="WARNING") as logs:
+                extract(catalog, [], "test-placeholder")
+        self.assertEqual([c.kwargs["model"] for c in generate.call_args_list],
+                         ["gemini-3.5-flash"] * 3 + ["gemini-3.5-flash-lite"])
+        self.assertEqual(sleep.call_count, 2)
+        self.assertTrue(any("falling back to gemini-3.5-flash-lite" in line for line in logs.output))
+
+    def test_all_candidates_exhausted_reraises_final_exception_with_bounded_calls(self):
+        catalog, _ = load_configuration()
+        modules, generate = self.fake_genai()
+        errors = [type("FakeAPIError", (Exception,), {"code": 429})(f"Failure {i}") for i in range(12)]
+        generate.side_effect = errors
+        with patch.dict("sys.modules", modules), patch.dict("os.environ", {}, clear=True):
+            with patch("crawler_and_extractor.time.sleep") as sleep, self.assertLogs("crawler_and_extractor", level="WARNING"):
+                with self.assertRaises(type(errors[-1])) as raised:
+                    extract(catalog, [], "test-placeholder")
+        self.assertIs(raised.exception, errors[-1])
+        self.assertEqual([c.kwargs["model"] for c in generate.call_args_list],
+                         [m for m in ("gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-flash-latest") for _ in range(3)])
+        self.assertEqual([c.args[0] for c in sleep.call_args_list], [3, 6] * 4)
+
+    def test_invalid_response_falls_back_without_retrying_or_sleeping(self):
+        catalog, _ = load_configuration()
+        modules, generate = self.fake_genai()
+        generate.side_effect = [MagicMock(text="not JSON"), MagicMock(text=""),
+                               MagicMock(text=json.dumps({"patch": "wrong-patch", "comps": self.raw["comps"]})),
+                               MagicMock(text=json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]}))]
+        with patch.dict("sys.modules", modules), patch.dict("os.environ", {}, clear=True):
+            with patch("crawler_and_extractor.time.sleep") as sleep, self.assertLogs("crawler_and_extractor", level="WARNING"):
+                result = extract(catalog, [], "test-placeholder")
+        self.assertEqual(result.patch, catalog.patch)
+        self.assertEqual(generate.call_count, 4)
+        sleep.assert_not_called()
 
 
 if __name__ == "__main__":
