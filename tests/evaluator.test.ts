@@ -77,6 +77,10 @@ test("new live catalog passes the browser contract including strict trait refere
   const parsed = databaseSchema.parse(raw);
   assert.equal(parsed.units.length, liveCatalog.units.length);
   assert.equal(parsed.units.find(x => x.id === "elder_dragon")!.boardSlots, 2);
+  const samplePublished = { ...raw, demo: true,
+    sources: [{ id: "sample_guide", url: "repo://scripts/transcripts/sample_guide.txt", title: "Original sample", retrievedAt: fixture.updatedAt }],
+    comps: raw.comps.map(c => ({ ...c, sourceIds: ["sample_guide"] })) };
+  assert.equal(databaseSchema.safeParse(samplePublished).success, true);
   const invalid = structuredClone(raw);
   invalid.units[0].traits.push("unknown-trait");
   assert.equal(databaseSchema.safeParse(invalid).success, false);

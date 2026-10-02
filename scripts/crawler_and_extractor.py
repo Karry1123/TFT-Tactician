@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import ipaddress
 import json
+import logging
 import os
 from pathlib import Path
 import socket
@@ -29,6 +30,7 @@ Stage = Annotated[str, StringConstraints(pattern=r"^[2-7]-[1-7]$")]
 MAX_BYTES = 512_000
 MAX_TEXT = 12_000
 USER_AGENT = "TFT-Tactician/1.0 (personal guide summarizer)"
+logger = logging.getLogger(__name__)
 
 
 class StrictModel(BaseModel):
@@ -100,7 +102,13 @@ class Source(StrictModel):
 
     @model_validator(mode="after")
     def valid_metadata(self):
-        if urlsplit(self.url).scheme not in ("https", "http") or not urlsplit(self.url).hostname:
+        parsed = urlsplit(self.url)
+        local_transcript = parsed.scheme == "repo" and parsed.netloc == "scripts" and parsed.path.startswith("/transcripts/")
+        if local_transcript:
+            path = (ROOT / (parsed.netloc + parsed.path)).resolve()
+            if parsed.query or parsed.fragment or not path.is_relative_to((ROOT / "scripts/transcripts").resolve()) or path.suffix != ".txt":
+                raise ValueError("Invalid repository transcript URL")
+        elif parsed.scheme not in ("https", "http") or not parsed.hostname:
             raise ValueError("Invalid source URL")
         if datetime.fromisoformat(self.retrievedAt.replace("Z", "+00:00")).tzinfo is None:
             raise ValueError("retrievedAt must have timezone")
@@ -222,15 +230,16 @@ class Manifest(StrictModel):
         return self
 
 
-def load_configuration() -> tuple[Catalog, Manifest]:
+def load_configuration(*, validate_transcripts: bool = True) -> tuple[Catalog, Manifest]:
     catalog = Catalog.model_validate_json((ROOT / "scripts/catalog.json").read_text(encoding="utf-8"))
     manifest = Manifest.model_validate_json((ROOT / "scripts/sources.json").read_text(encoding="utf-8"))
     if manifest.patch != catalog.patch:
         raise ValueError("Catalog and source patch must match")
-    with httpx.Client() as client:
-        for source in manifest.sources:
-            if source.kind == "transcript" and len(crawl(source, client).strip()) < 100:
-                raise ValueError(f"Source {source.id} has insufficient readable text")
+    if validate_transcripts:
+        with httpx.Client() as client:
+            for source in manifest.sources:
+                if source.kind == "transcript" and len(crawl(source, client).strip()) < 100:
+                    raise ValueError(f"Source {source.id} has insufficient readable text")
     return catalog, manifest
 
 
@@ -288,6 +297,29 @@ def crawl(source: SourceConfig, client: httpx.Client) -> str:
     return article.get_text(" ", strip=True)[:MAX_TEXT]
 
 
+def collect_sources(manifest: Manifest, client: httpx.Client, retrieved_at: str) -> tuple[list[dict], list[Source], bool]:
+    """Isolate source failures while retaining successful provenance and demo status."""
+    documents, sources = [], []
+    includes_sample = False
+    for source in manifest.sources:
+        if source.purpose == "reference":
+            continue
+        try:
+            text = crawl(source, client)
+            if len(text.strip()) < 100:
+                raise ValueError("Source has insufficient readable text")
+            metadata = Source(id=source.id, url=source.url, title=source.title, retrievedAt=retrieved_at)
+        except (httpx.HTTPError, OSError, ValueError) as err:
+            logger.warning("Failed to fetch %s: %s", source.url, err)
+            continue
+        documents.append({"sourceId": source.id, "purpose": source.purpose, "text": text})
+        sources.append(metadata)
+        includes_sample = includes_sample or source.purpose == "sample"
+    if not documents:
+        raise RuntimeError("No content could be retrieved from any configured guide or transcript; database unchanged. Check source URLs, robots rules, and transcript files.")
+    return documents, sources, includes_sample
+
+
 def extract(catalog: Catalog, documents: list[dict], key: str) -> Extraction:
     from google import genai
     from google.genai import types
@@ -299,6 +331,8 @@ def extract(catalog: Catalog, documents: list[dict], key: str) -> Extraction:
         "Use sourceIds for provenance. Include explicitly supported two-star deadlines "
         "and early-board transitions; rank item priority with 1 highest. Rating -1..1 "
         "is augment incompatibility..strong compatibility. Target item holders must "
+        "Documents with purpose=sample are authorized educational examples: extract "
+        "their explicit guidance for a DEMO database, without treating it as verified live statistics. "
         "also appear in transition.itemHolderIds. If there is no reliable guidance "
         "for this patch, return no comps (validation will reject the refresh).\n"
         + json.dumps({"catalog": catalog.model_dump(), "documents": documents}, ensure_ascii=False)
@@ -350,19 +384,16 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=ROOT / "public/data/meta_comps.json")
     args = parser.parse_args()
     old = Database.model_validate_json(args.output.read_text(encoding="utf-8"))
-    catalog, manifest = load_configuration()
+    catalog, manifest = load_configuration(validate_transcripts=args.validate_only or args.mock)
     if args.validate_only or args.mock:
         print(f"Catalog: patch={catalog.patch}, demo={catalog.demo}, components={len(catalog.components)}, "
               f"items={len(catalog.items)}, units={len(catalog.units)}, traits={len(catalog.traits)}, augments={len(catalog.augments)}")
         print(f"Manifest: {len(manifest.sources)} sources; "
-              f"{sum(s.purpose == 'guide' for s in manifest.sources)} live guides; transcript paths validated")
+              f"{sum(s.purpose == 'guide' for s in manifest.sources)} live guides; "
+              f"{sum(s.purpose == 'sample' for s in manifest.sources)} sample transcripts; transcript paths validated")
         print(f"Validated revision {old.revision}, {len(old.comps)} comps; demo={old.demo}")
         if old.demo:
             print("Published database remains a demo until a successful live extraction.")
-        return
-    guide_sources = [source for source in manifest.sources if source.purpose == "guide"]
-    if not guide_sources:
-        print("No sources configured; preserving database. See README setup.")
         return
     if catalog.demo or manifest.patch != catalog.patch:
         raise ValueError("Live extraction requires a non-demo catalog and matching source patch")
@@ -372,18 +403,16 @@ def main() -> None:
     if not key:
         raise ValueError("Missing GEMINI_API_KEY; database unchanged")
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    documents, sources = [], []
     with httpx.Client(timeout=20, follow_redirects=False, trust_env=False, headers={"User-Agent": USER_AGENT}) as client:
-        for source in guide_sources:
-            text = crawl(source, client)
-            if len(text.strip()) < 100:
-                raise ValueError(f"Source {source.id} has insufficient readable text")
-            documents.append({"sourceId": source.id, "text": text})
-            sources.append(Source(id=source.id, url=source.url, title=source.title, retrievedAt=now))
+        documents, sources, includes_sample = collect_sources(manifest, client, now)
+    if includes_sample:
+        logger.warning("Educational sample content included; extracted database will be marked demo=True.")
     result = extract(catalog, documents, key)
     if result.patch != catalog.patch:
         raise ValueError("Extracted patch does not match catalog")
-    fresh = Database(**catalog.model_dump(), schemaVersion=1, revision=old.revision + 1,
+    payload = catalog.model_dump()
+    payload["demo"] = includes_sample
+    fresh = Database(**payload, schemaVersion=1, revision=old.revision + 1,
                      updatedAt=now, sources=sources, comps=sorted(result.comps, key=lambda c: c.id))
     if stable_payload(fresh) == stable_payload(old):
         print("No semantic changes; preserving revision")
@@ -394,4 +423,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+    try:
+        main()
+    except RuntimeError as err:
+        logger.error("%s", err)
+        raise SystemExit(1) from None

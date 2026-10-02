@@ -3,8 +3,12 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import contextlib
+import io
+from unittest.mock import patch
+import httpx
 from pydantic import ValidationError
-from crawler_and_extractor import Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration
+from crawler_and_extractor import Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration, collect_sources, main
 
 
 class ETLTests(unittest.TestCase):
@@ -53,7 +57,7 @@ class ETLTests(unittest.TestCase):
         self.assertEqual({t.id for t in catalog.augmentTiers}, {"silver", "gold", "prismatic"})
         self.assertEqual({a.tier for a in catalog.augments}, {"silver", "gold", "prismatic"})
         self.assertLessEqual(len(manifest.sources), 6)
-        self.assertTrue(any(s.purpose == "guide" for s in manifest.sources))
+        self.assertTrue(any(s.purpose in ("guide", "sample") for s in manifest.sources))
         self.assertTrue(any(s.purpose == "sample" for s in manifest.sources))
 
     def test_catalog_duplicate_ids_bad_traits_and_recipes_rejected(self):
@@ -94,6 +98,69 @@ class ETLTests(unittest.TestCase):
         db = Database.model_validate(raw)
         self.assertEqual(len(db.units), len(catalog.units))
         self.assertTrue(all(s.purpose != "sample" for s in manifest.sources if s.purpose == "guide"))
+
+    def test_each_source_failure_is_skipped_and_transcript_survives(self):
+        _, configured = load_configuration()
+        sample = next(s for s in configured.sources if s.purpose == "sample")
+        url = "https://example.com/guide"
+        request = httpx.Request("GET", url)
+        failures = [
+            httpx.HTTPStatusError("Forbidden", request=request, response=httpx.Response(403, request=request)),
+            httpx.HTTPStatusError("Not found", request=request, response=httpx.Response(404, request=request)),
+            httpx.ReadTimeout("Timeout", request=request),
+            ValueError("robots.txt disallows crawling"),
+            FileNotFoundError("Missing transcript"),
+            "too short",
+        ]
+        remote = SourceConfig(id="remote", url=url, title="Remote", kind="html")
+        manifest = Manifest(patch=configured.patch, sources=[remote, sample])
+        for failure in failures:
+            with self.subTest(failure=type(failure).__name__), httpx.Client() as client:
+                with patch("crawler_and_extractor.crawl", side_effect=[failure, "Authorized Chinese guide. " * 10]):
+                    with self.assertLogs("crawler_and_extractor", level="WARNING") as logs:
+                        documents, metadata, demo = collect_sources(manifest, client, "2026-10-01T00:00:00Z")
+                self.assertIn(url, logs.output[0])
+                self.assertEqual([d["sourceId"] for d in documents], [sample.id])
+                self.assertEqual([s.id for s in metadata], [sample.id])
+                self.assertTrue(demo)
+
+    def test_all_failed_sources_raise_descriptive_error(self):
+        _, manifest = load_configuration()
+        with httpx.Client() as client, patch("crawler_and_extractor.crawl", side_effect=ValueError("robots exclusion")):
+            with self.assertLogs("crawler_and_extractor", level="WARNING"):
+                with self.assertRaisesRegex(RuntimeError, "No content could be retrieved.*database unchanged"):
+                    collect_sources(manifest, client, "2026-10-01T00:00:00Z")
+
+    def test_successful_html_source_proceeds_without_demo_flag(self):
+        source = SourceConfig(id="html", url="https://example.com/guide", title="Guide", kind="html")
+        manifest = Manifest(patch="18.3 B", sources=[source])
+        with httpx.Client() as client, patch("crawler_and_extractor.crawl", return_value="Guide text " * 20):
+            documents, metadata, demo = collect_sources(manifest, client, "2026-10-01T00:00:00Z")
+        self.assertEqual(documents[0]["sourceId"], source.id)
+        self.assertEqual(metadata[0].url, source.url)
+        self.assertFalse(demo)
+
+    def test_real_local_transcript_reaches_extraction_and_publishes_demo(self):
+        catalog, manifest = load_configuration()
+        sample = next(s for s in manifest.sources if s.purpose == "sample")
+        unit = catalog.units[0].id
+        comp = self.raw["comps"][0].copy()
+        comp.update(units=[unit], carryId=unit, keyItems=[], augmentCompatibility=[], milestones=[],
+                    sourceIds=[sample.id], transition={"earlyUnitIds": [], "itemHolderIds": [], "minimumLevel": 2, "minimumGold": 0})
+        extracted = Extraction.model_validate({"patch": catalog.patch, "comps": [comp]})
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / "meta_comps.json"
+            output.write_text(json.dumps(self.raw), encoding="utf-8")
+            with patch("sys.argv", ["etl", "--output", str(output)]), patch.dict("os.environ", {"GEMINI_API_KEY": "test-placeholder"}):
+                with patch("crawler_and_extractor.extract", return_value=extracted) as llm:
+                    with contextlib.redirect_stdout(io.StringIO()), self.assertLogs("crawler_and_extractor", level="WARNING"):
+                        main()
+            llm.assert_called_once()
+            self.assertEqual(llm.call_args.args[1][0]["sourceId"], sample.id)
+            published = Database.model_validate_json(output.read_text(encoding="utf-8"))
+            self.assertTrue(published.demo)
+            self.assertEqual(published.sources[0].url, sample.url)
+            self.assertEqual(published.revision, self.raw["revision"] + 1)
 
 
 if __name__ == "__main__":

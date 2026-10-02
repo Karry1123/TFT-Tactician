@@ -83,10 +83,17 @@ Scores are heuristic fit scores, not win probabilities; manual inputs do not alt
 
 HTML ingestion respects robots.txt, rejects redirects/private network URLs, enforces
 timeouts and response/text limits, and extracts readable article text. A 404 robots
-file permits crawling; other robots failures stop the refresh. Sources requiring
+file permits crawling; other robots failures skip that source with a warning. HTTP
+errors, timeouts, unreadable transcripts, and insufficient text also skip only the
+affected source. Extraction proceeds with any successful guide or sample; if none
+succeed, the job reports a descriptive error and preserves the database. Sources requiring
 login, JS rendering, anti-bot bypass, or video transcription are not scraped.
 Use creator-authorized transcript text under `scripts/transcripts/`; there is no
 paid ASR dependency. Guide text is bounded untrusted input, never executed.
+The configured original `sample_guide.txt` participates in extraction as a reliable
+local fallback. Any refresh containing sample content is marked `demo=true`.
+`purpose=reference` entries are never ingested. The four blocked Mobalytics guide
+URLs have been removed from the active manifest.
 
 Gemini receives the explicit JSON schema and canonical catalog. Pydantic rejects
 unknown IDs, duplicate IDs, wrong types, extra fields, invalid recipes, mismatched
@@ -277,9 +284,14 @@ python -m venv .venv
    因此应使用托管平台的 Git 集成完成重新部署。
 
 HTML 抓取遵守 `robots.txt`，拒绝重定向和私有网络地址，并限制请求时间、响应大小和文本长度。
-`robots.txt` 返回 404 时允许抓取；其他读取失败会停止本次更新。
+`robots.txt` 返回 404 时允许抓取；其他读取失败或拒绝抓取只跳过该来源并记录警告。
+HTTP 错误、超时、本地文件读取失败或正文过短也按单个来源跳过。至少一个攻略或样例
+来源成功就继续提取；全部失败时明确报错并保留原数据库。
 需要登录、JavaScript 渲染、绕过反爬措施或视频语音转写的来源，不会被自动处理。
 Bilibili 等视频来源应使用已获授权的文字稿，保存为 `scripts/transcripts/` 下的 `.txt` 文件。
+配置中的原创 `sample_guide.txt` 已作为可靠的本地提取来源接入。只要提取输入包含
+`purpose=sample` 内容，生成数据库就标记 `demo=true`；`purpose=reference` 不参与提取。
+四个被反爬拦截的 Mobalytics 攻略链接已从实际来源配置移除。
 系统不依赖付费语音转写服务，也不会执行攻略文本中的指令。
 
 Gemini 接收明确的 JSON Schema 和标准目录。Pydantic 会拒绝未知或重复的 ID、

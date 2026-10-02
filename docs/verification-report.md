@@ -1,5 +1,7 @@
 # 国服资料更新与本地验证
 
+此报告保留初次资料更新时的 JSON 和运行输出；403 抓取修复后的当前配置及行为见 [版本说明](current-patch-notes.md) 与 `scripts/sources.json`。
+
 核对日期：2026-10-01。`patch` 为公告原样 `18.3 B`，`demo=false`。完整 JSON 内容在下方。字段来源与边界见 [版本说明](current-patch-notes.md) 和 [来源记录](../scripts/catalog_provenance.json)。
 
 ## 实际运行输出

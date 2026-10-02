@@ -23,8 +23,8 @@
     "36 trait identities; unit.traits uses Chinese names, matched against this registry. Elementalist is normalized to its trait name 大元素使.",
     "Augments are a curated subset of 24, not a claim to list every live augment. Three tier definitions are complete.",
     "Excluded temporarily disabled CN augments: 挑战者的优雅, 黑暗仪式, 三相庇护, 弈子套娃.",
-    "The four international guide pages are listed under base patch 18.3, not China-specific 18.3 B statistics. Review hotfix-sensitive advice before publishing; rankings can drift.",
-    "Reference and original sample entries are excluded from live extraction. No remote crawler or Gemini invocation was performed in local verification.",
+    "The four original Mobalytics guide candidates were removed from sources.json after Actions received HTTP 403. Catalog reference URLs remain provenance, not active crawler sources.",
+    "Reference entries are excluded from extraction. The original local sample participates in extraction, with demo=true required whenever sample input is included. Local verification uses a mocked LLM and no paid API.",
     "Published demo database remains unchanged until a valid live extraction succeeds."
   ]
 }
