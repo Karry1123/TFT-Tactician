@@ -28,6 +28,7 @@ jobs:
       - name: Crawl and validate (one Gemini request maximum)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: python scripts/crawler_and_extractor.py
       - name: Publish only validated JSON
         shell: bash

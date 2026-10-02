@@ -5,10 +5,11 @@ import tempfile
 import unittest
 import contextlib
 import io
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
+from types import ModuleType
 import httpx
 from pydantic import ValidationError
-from crawler_and_extractor import Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration, collect_sources, main
+from crawler_and_extractor import Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration, collect_sources, extract, main
 
 
 class ETLTests(unittest.TestCase):
@@ -161,6 +162,35 @@ class ETLTests(unittest.TestCase):
             self.assertTrue(published.demo)
             self.assertEqual(published.sources[0].url, sample.url)
             self.assertEqual(published.revision, self.raw["revision"] + 1)
+
+    def test_extraction_uses_default_or_environment_model_in_sdk_request(self):
+        # Exercise the actual request construction without installing/calling an API.
+        catalog, _ = load_configuration()
+        google = ModuleType("google")
+        sdk = ModuleType("google.genai")
+        sdk_types = ModuleType("google.genai.types")
+        google.genai = sdk
+        sdk.types = sdk_types
+        sdk.Client = MagicMock()
+        for name in ("HttpOptions", "HttpRetryOptions", "GenerateContentConfig"):
+            setattr(sdk_types, name, lambda **kwargs: kwargs)
+        generate = sdk.Client.return_value.__enter__.return_value.models.generate_content
+        generate.return_value.text = json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]})
+        for value, expected in ((None, "gemini-3.8-flash"), ("", "gemini-3.8-flash"),
+                                ("   ", "gemini-3.8-flash"), ("custom-model", "custom-model")):
+            with self.subTest(model=value), patch.dict("sys.modules", {
+                "google": google, "google.genai": sdk, "google.genai.types": sdk_types,
+            }), patch.dict("os.environ", {}, clear=True):
+                if value is not None:
+                    with patch.dict("os.environ", {"GEMINI_MODEL": value}):
+                        extract(catalog, [], "test-placeholder")
+                else:
+                    extract(catalog, [], "test-placeholder")
+                self.assertEqual(generate.call_args.kwargs["model"], expected)
+                self.assertNotIn("thinking_config", generate.call_args.kwargs["config"])
+                self.assertEqual(generate.call_args.kwargs["config"]["response_json_schema"], Extraction.model_json_schema())
+                generate.assert_called_once()
+                generate.reset_mock()
 
 
 if __name__ == "__main__":
