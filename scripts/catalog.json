@@ -1174,124 +1174,4322 @@
   ],
   "augments": [
     {
-      "id": "pandoras_items_1",
-      "name": "潘朵拉的装备 I",
-      "tier": "silver"
-    },
-    {
-      "id": "electrocharge_1",
-      "name": "电火花 I",
-      "tier": "silver"
-    },
-    {
-      "id": "partial_ascension",
-      "name": "部分飞升",
-      "tier": "silver"
-    },
-    {
-      "id": "focused_fire",
-      "name": "集中火力",
-      "tier": "silver"
-    },
-    {
-      "id": "makeshift_armor_1",
-      "name": "应急护甲 I",
-      "tier": "silver"
-    },
-    {
-      "id": "celestial_blessing_1",
-      "name": "星界赐福 I",
-      "tier": "silver"
-    },
-    {
-      "id": "healing_orbs_1",
-      "name": "治疗法球 I",
-      "tier": "silver"
-    },
-    {
-      "id": "caretakers_ally",
-      "name": "游神的盟友",
-      "tier": "silver"
-    },
-    {
-      "id": "pandoras_bench",
-      "name": "潘朵拉的备战席",
-      "tier": "silver"
-    },
-    {
-      "id": "branching_out",
-      "name": "节外生枝",
-      "tier": "silver"
-    },
-    {
-      "id": "pandoras_items_2",
-      "name": "潘朵拉的装备 II",
-      "tier": "gold"
-    },
-    {
       "id": "ascension",
       "name": "飞升",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "在战斗开始12秒后，你的单位们获得35%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Ascension"
     },
     {
       "id": "big_grab_bag",
       "name": "大百宝袋",
-      "tier": "gold"
-    },
-    {
-      "id": "celestial_blessing_2",
-      "name": "星界赐福 II",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "获得3件随机基础装备、2金币和1个【装备重铸器】。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_18_BigGrabBag"
     },
     {
       "id": "caretakers_favor",
       "name": "游神的眷顾",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "在你到达5、6、7和8级时，获得1个【基础装备锻造器】。\n\n【基础装备锻造器】提供4个选项。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_CaretakersFavor"
+    },
+    {
+      "id": "celestial_blessing_2",
+      "name": "星界赐福 II",
+      "tier": "gold",
+      "description": "你的队伍获得18%全能吸血。溢出的治疗量会转换为护盾，至多转化为400生命值护盾。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CelestialBlessingII"
+    },
+    {
+      "id": "da_18_blossomtraitaugment",
+      "name": "绽灵花的约定",
+      "tier": "gold",
+      "description": "当你购买1个【自然仙灵】时，获得1个随机【灵魂莲华】弈子(基于【自然仙灵】的费用)。获得1个【芸阿娜】、1个【约里克】和1个【卡尔玛】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "灵魂莲华"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [
+        "灵魂莲华"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_BlossomTraitAugment"
+    },
+    {
+      "id": "da_18_coventraitaugment",
+      "name": "女巫使魔",
+      "tier": "gold",
+      "description": "当你选择继续收集【魔女精粹】而非兑换时，治疗2玩家生命值。获得1个【卡蜜尔】、1个【伊莉丝】和1个【凯特琳】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "魔女"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [
+        "魔女"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_CovenTraitAugment"
+    },
+    {
+      "id": "da_18_duoqueue",
+      "name": "双排",
+      "tier": "gold",
+      "description": "获得2个随机5费弈子和2件相同的随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_DuoQueue"
+    },
+    {
+      "id": "da_18_elderwoodtraitaugment",
+      "name": "自然庇护所",
+      "tier": "gold",
+      "description": "战斗开始时：位于【永恒之森】植物邻格的弈子们获得15%攻击速度，并且每2秒治疗其2%最大生命值。获得1个【阿利斯塔】、1个【奥恩】和1个【霞】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "永恒之森"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [
+        "永恒之森"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_ElderwoodTraitAugment"
+    },
+    {
+      "id": "da_18_faetraitaugment",
+      "name": "巨化术",
+      "tier": "gold",
+      "description": "【花仙子】弈子的【皮克斯仙灵】体型变大，并提供50%额外物理加成和法术加成。【花仙子】弈子们立刻获得10%物理加成和法术加成。获得1个【霞】和1个【洛】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "花仙子"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [
+        "花仙子"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_FaeTraitAugment"
+    },
+    {
+      "id": "da_18_florafatalisaugment",
+      "name": "致命丽花",
+      "tier": "gold",
+      "description": "获得1个【绝命花妖纹章】。携带该纹章的弈子从【绝命花妖】羁绊中获得50%额外加成。获得3金币。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕",
+        "绝命花妖"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [
+        "绝命花妖"
+      ],
+      "category": "emblem",
+      "apiName": "DA_18_FloraFatalisAugment"
+    },
+    {
+      "id": "da_18_fourcing",
+      "name": "四之力",
+      "tier": "gold",
+      "description": "获得1个随机4费弈子。该弈子每携带1件装备，你的队伍获得100生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_18_FOURcing"
+    },
+    {
+      "id": "da_18_lunartraitaugment",
+      "name": "日月同辉",
+      "tier": "gold",
+      "description": "每登场1个不同的【日蚀骑士】弈子，你的【月蚀骑士】弈子们获得100生命值和8%伤害增幅。获得1个【蕾欧娜】、1个【凯尔】和1个【厄斐琉斯】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "月蚀骑士"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [
+        "月蚀骑士"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_LunarTraitAugment"
+    },
+    {
+      "id": "da_18_lunartraitaugmentplus",
+      "name": "日月同辉＋",
+      "tier": "gold",
+      "description": "每登场1个不同的【日蚀骑士】弈子，你的【月蚀骑士】弈子们获得100生命值和8%伤害增幅。获得1个【蕾欧娜】、1个【凯尔】和1个【厄斐琉斯】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "月蚀骑士"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [
+        "月蚀骑士"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_LunarTraitAugmentPlus"
+    },
+    {
+      "id": "da_18_primalaugment_nidalee",
+      "name": "兽性本能",
+      "tier": "gold",
+      "description": "【野兽之灵】额外提供一种【兽灵赐福】。立刻获得1个【蔚】，在3个回合后，获得1个【奈德丽】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "野兽之灵"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [
+        "野兽之灵"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_PrimalAugment_Nidalee"
+    },
+    {
+      "id": "da_18_primalaugment_sivir",
+      "name": "兽性本能",
+      "tier": "gold",
+      "description": "【野兽之灵】额外提供一种【兽灵赐福】。立刻获得1个【蔚】，在3个回合后，获得1个【希维尔】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "野兽之灵"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [
+        "野兽之灵"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_PrimalAugment_Sivir"
+    },
+    {
+      "id": "da_18_primalaugmentplus_nidalee",
+      "name": "兽性本能+",
+      "tier": "gold",
+      "description": "【野兽之灵】额外提供一种【兽灵赐福】。获得1个【蔚】和1个【奈德丽】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "野兽之灵"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [
+        "野兽之灵"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_PrimalAugmentPlus_Nidalee"
+    },
+    {
+      "id": "da_18_primalaugmentplus_sivir",
+      "name": "兽性本能+",
+      "tier": "gold",
+      "description": "【野兽之灵】额外提供一种【兽灵赐福】。获得1个【蔚】和1个【希维尔】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "野兽之灵"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [
+        "野兽之灵"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_PrimalAugmentPlus_Sivir"
+    },
+    {
+      "id": "da_18_riftbeasttraitaugment",
+      "name": "欧米茄之怪",
+      "tier": "gold",
+      "description": "你现在可以选择第二个被【阿尔法印记】标记的【峡谷野怪】。获得1个【峡谷迅捷蟹】、1个【绯红树怪】和1个【苍蓝哨戒】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "峡谷野怪"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [
+        "峡谷野怪"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_RiftbeastTraitAugment"
+    },
+    {
+      "id": "da_18_rivalsaugment",
+      "name": "世纪和解",
+      "tier": "gold",
+      "description": "你可以同时登场【雷恩加尔】和【卡兹克】且不触发【宿敌】羁绊的负面效果。他们会在彼此施放技能时获得加成。获得1个【雷恩加尔】和1个【卡兹克】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "宿敌"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [
+        "宿敌"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_RivalsAugment"
+    },
+    {
+      "id": "da_18_rivalsaugmentplus",
+      "name": "世纪和解",
+      "tier": "gold",
+      "description": "你可以同时登场【雷恩加尔】和【卡兹克】且不触发【宿敌】羁绊的负面效果。他们会在彼此施放技能时获得加成。获得1个【雷恩加尔】和1个【卡兹克】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_RivalsAugmentPlus"
+    },
+    {
+      "id": "da_18_solartraitaugment",
+      "name": "太阳的抉择",
+      "tier": "gold",
+      "description": "获得1个【蕾欧娜】、1个【凯尔】和1个【瑟庄妮】。【蕾欧娜】每回合获得70永久最大生命值，每登场1名不同的3星弈子，该加成还会提升10。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "日蚀骑士"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [
+        "日蚀骑士"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_SolarTraitAugment"
+    },
+    {
+      "id": "da_18_sprykinaugment",
+      "name": "毛茸茸小朋友",
+      "tier": "gold",
+      "description": "当【约德尔人和他们的毛茸茸大朋友】羁绊激活时，获得第二个【毛茸茸大朋友】召唤物，但仅有原来的35%强度。获得1个【提莫】、1个【维迦】和1个【可酷伯】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "约德尔人和朋友"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [
+        "约德尔人和朋友"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_SprykinAugment"
+    },
+    {
+      "id": "da_18_weighttheworth",
+      "name": "等待得值",
+      "tier": "gold",
+      "description": "每当你将1个弈子升至3星时，在剩余游戏时间内的每回合都会获得1个其1星复制体。将与该弈子相同的弈子再次升至3星时，提供额外的1星复制体。获得1个【次级英雄复制器】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_WeightTheWorth"
+    },
+    {
+      "id": "da_advancedloan",
+      "name": "高级贷款",
+      "tier": "gold",
+      "description": "获得20金币。你的下一个强化符文位阶降低一阶。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_AdvancedLoan"
+    },
+    {
+      "id": "da_advancedloanplus",
+      "name": "高级贷款+",
+      "tier": "gold",
+      "description": "获得33金币。你的下一个强化符文位阶降低一阶。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_AdvancedLoanPlus"
+    },
+    {
+      "id": "da_arcaneviktory",
+      "name": "双城赢家",
+      "tier": "gold",
+      "description": "在战斗开始8秒后，晕眩敌方队伍16.19.1秒。在战斗18秒后，重复该效果。\n\n2024云顶之弈澳门公开赛",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ArcaneViktory"
+    },
+    {
+      "id": "da_backlineblueprint",
+      "name": "后排蓝图",
+      "tier": "gold",
+      "description": "获得1个3费非坦克弈子，以及一个与其职业相匹配的纹章。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_BacklineBlueprint"
+    },
+    {
+      "id": "da_birthdayreunion",
+      "name": "生日聚会",
+      "tier": "gold",
+      "description": "获得1个随机2星2费弈子。在6级时，获得1件随机基础装备。在9级时，获得1个随机2星5费弈子。\n\n2024【画中灵】全球总决赛",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BirthdayReunion"
+    },
+    {
+      "id": "da_blackthorntraitaugment",
+      "name": "装备提炼",
+      "tier": "gold",
+      "description": "你最初3次在【黑荆棘格】内献祭1个弈子时，获得1个其携带着的随机散件的复制品。获得1个【阿兹尔】、1个【维迦】和1个【雷克塞】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "黑荆棘"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [
+        "黑荆棘"
+      ],
+      "category": "trait",
+      "apiName": "DA_BlackthornTraitAugment"
+    },
+    {
+      "id": "da_bodyguardtraining",
+      "name": "利落保镖",
+      "tier": "gold",
+      "description": "友军获得15护甲和魔法抗性，每玩家等级提升该加成2。\n\n2022【双城之战】全球总决赛",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BodyguardTraining"
+    },
+    {
+      "id": "da_bonusgift",
+      "name": "意外之礼",
+      "tier": "gold",
+      "description": "每当你开启1个战利品法球时，你有25%几率获得1个灰色战利品法球。获得1个灰色战利品法球。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BonusGift"
+    },
+    {
+      "id": "da_bonusgiftplus",
+      "name": "意外之礼+",
+      "tier": "gold",
+      "description": "每当你开启1个战利品法球时，你有25%几率获得1个灰色战利品法球。获得2个灰色战利品法球。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BonusGiftPlus"
+    },
+    {
+      "id": "da_boosterpack",
+      "name": "扩展包",
+      "tier": "gold",
+      "description": "获得价值12金币的随机弈子。(保证至少一个3费弈子！)",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_BoosterPack"
+    },
+    {
+      "id": "da_boosterpackplus",
+      "name": "扩展包+",
+      "tier": "gold",
+      "description": "获得价值18金币的随机弈子。(保证至少一个4费弈子！)",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_BoosterPackPlus"
+    },
+    {
+      "id": "da_boosterpackplusplus",
+      "name": "扩展包++",
+      "tier": "gold",
+      "description": "获得价值26金币的随机弈子。(保证至少一个5费弈子！)",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_BoosterPackPlusPlus"
+    },
+    {
+      "id": "da_bronzeforlifei",
+      "name": "终身黄铜 I",
+      "tier": "gold",
+      "description": "每拥有1个黄铜级羁绊，你的队伍获得2.5%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BronzeForLifeI"
+    },
+    {
+      "id": "da_capitalgainsii",
+      "name": "资本利得 II",
+      "tier": "gold",
+      "description": "储存相当于你获得利息的金币。在阶段3-3，获得相当于你125已储存金币的金币。立刻获得3金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CapitalGainsII"
+    },
+    {
+      "id": "da_clearmind",
+      "name": "清晰头脑",
+      "tier": "gold",
+      "description": "如果在玩家对战回合结束时，你的备战席没有任何弈子，则获得3经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ClearMind"
+    },
+    {
+      "id": "da_clockworkaccelerator",
+      "name": "发条增速器",
+      "tier": "gold",
+      "description": "你的队伍在战斗中每过3秒就会获得10%攻击速度。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ClockworkAccelerator"
+    },
+    {
+      "id": "da_clutteredmind",
+      "name": "纷乱头脑",
+      "tier": "gold",
+      "description": "立刻获得4个1费弈子。如果在玩家对战回合结束时，你的备战席已满，则获得3经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ClutteredMind"
+    },
+    {
+      "id": "da_cognitiveoverload",
+      "name": "认知过载",
+      "tier": "gold",
+      "description": "获得7金币、1个2星1费弈子、1个2费弈子、2个3费弈子、1经验值以及1次商店刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CognitiveOverload"
+    },
+    {
+      "id": "da_constructacompanion",
+      "name": "挑个好伙计！",
+      "tier": "gold",
+      "description": "你购买的下个费弈子变为星。获得金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ConstructACompanion"
+    },
+    {
+      "id": "da_cookingpot",
+      "name": "金色炊具",
+      "tier": "gold",
+      "description": "在每回合开始时，所有持有【金锅锅】或【金铲铲】装备的友军都会为最近的弈子提供60永久生命值。获得1个【金锅锅】。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CookingPot"
+    },
+    {
+      "id": "da_crymeariver",
+      "name": "泪流成河",
+      "tier": "gold",
+      "description": "获得1个【女神之泪】。你的队伍获得1法力回复。战斗开始12秒后，该数值提升至4。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_CryMeARiver"
+    },
+    {
+      "id": "da_cyberneticimplants_gold",
+      "name": "源计划植入",
+      "tier": "gold",
+      "description": "你携带1件装备的弈子们获得100生命值和15%物理加成。获得1个【暴风大剑】。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CyberneticImplants_Gold"
+    },
+    {
+      "id": "da_cyberneticuplink_gold",
+      "name": "源计划上行链路",
+      "tier": "gold",
+      "description": "你携带1件装备的弈子们获得100生命值和2法力回复。获得1个【女神之泪】。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CyberneticUplink_Gold"
+    },
+    {
+      "id": "da_deadlierblades",
+      "name": "更要命的战刃",
+      "tier": "gold",
+      "description": "获得1个【死亡之刃】。【死亡之刃】的携带者每参与1次击杀，【死亡之刃】就会永久获得1%物理加成。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_DeadlierBlades"
+    },
+    {
+      "id": "da_deadliercaps",
+      "name": "更要命的帽子",
+      "tier": "gold",
+      "description": "获得1个【灭世者的死亡之帽】。【灭世者的死亡之帽】提供1法力回复，并且它的携带者每参与击杀一次，它就会永久获得1%法术加成。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_DeadlierCaps"
+    },
+    {
+      "id": "da_earlylearnings",
+      "name": "宝宝学院",
+      "tier": "gold",
+      "description": "你的队伍获得5%物理加成和法术加成。在每场玩家对战回合结束后，该加成提升1%。1费弈子们获得双倍该加成。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_EarlyLearnings"
+    },
+    {
+      "id": "da_epoch",
+      "name": "新纪元",
+      "tier": "gold",
+      "description": "立刻以及每阶段开始时，获得4经验值和2次免费刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Epoch"
+    },
+    {
+      "id": "da_epochplus",
+      "name": "新纪元+",
+      "tier": "gold",
+      "description": "立刻以及每阶段开始时，获得8经验值和2次免费刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_EpochPlus"
+    },
+    {
+      "id": "da_exclusivecustomization",
+      "name": "专属定制",
+      "tier": "gold",
+      "description": "获得1个【幸运装备宝箱】、1个【装备拆卸器】和7金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ExclusiveCustomization"
+    },
+    {
+      "id": "da_explosivegrowthplus",
+      "name": "爆炸式增长+",
+      "tier": "gold",
+      "description": "立刻以及接下来的3个回合开始时，获得10经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ExplosiveGrowthPlus"
+    },
+    {
+      "id": "da_flexible",
+      "name": "灵活摇摆",
+      "tier": "gold",
+      "description": "获得1个随机纹章。在每阶段开始时，获得1个随机纹章。你的队伍每携带1个纹章，就会获得30生命值。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_Flexible"
+    },
+    {
+      "id": "da_frontlinefoundation",
+      "name": "前线地基",
+      "tier": "gold",
+      "description": "获得1个2星1费坦克弈子，以及一个与其职业相匹配的纹章。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_FrontlineFoundation"
+    },
+    {
+      "id": "da_gaingold",
+      "name": "获得21金币",
+      "tier": "gold",
+      "description": "获得21金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GainGold"
+    },
+    {
+      "id": "da_gildedsteel",
+      "name": "镀金钢铁",
+      "tier": "gold",
+      "description": "获得2个5费弈子。如果你登场了至少一个5费弈子，你的1至4费弈子们获得8%伤害减免。\n\n2025【天下无双格斗大赛】全球总决赛",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GildedSteel"
+    },
+    {
+      "id": "da_glasscannon_gold",
+      "name": "玻璃大炮 II",
+      "tier": "gold",
+      "description": "在后排开始战斗的友军，在战斗开始时的生命值为80%，但会获得25%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GlassCannon_Gold"
+    },
+    {
+      "id": "da_golddestiny",
+      "name": "黄金命运",
+      "tier": "gold",
+      "description": "获得1个随机黄金阶强化符文和3金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoldDestiny"
+    },
+    {
+      "id": "da_golddestinyplus",
+      "name": "黄金命运+",
+      "tier": "gold",
+      "description": "获得1个随机黄金阶强化符文和5金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoldDestinyPlus"
+    },
+    {
+      "id": "da_grouphugii",
+      "name": "拥抱 II",
+      "tier": "gold",
+      "description": "战斗开始时：弈子为其他邻格弈子提供9护甲和魔抗。这个效果可以叠加。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GroupHugII"
+    },
+    {
+      "id": "da_hardbargain",
+      "name": "砍价高手",
+      "tier": "gold",
+      "description": "你无法选择你的选秀奖励。每次选秀回合获得额外的6玩家生命值和8金币。\n若你没有选择选秀奖励，你会获得1个未被选择的弈子和其携带的装备。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_HardBargain"
+    },
+    {
+      "id": "da_healingorbsii",
+      "name": "治疗法球 II",
+      "tier": "gold",
+      "description": "当1名敌人阵亡时，1名附近的友军治疗575生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_HealingOrbsII"
+    },
+    {
+      "id": "da_heartofsteel",
+      "name": "心之钢",
+      "tier": "gold",
+      "description": "获得1个【坚定之心】。【坚定之心】的携带者每存活10秒，【坚定之心】就会额外获得16永久最大生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_HeartOfSteel"
+    },
+    {
+      "id": "da_heroicgrabbag",
+      "name": "英勇福袋",
+      "tier": "gold",
+      "description": "获得2个【次级英雄复制器】。获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_HeroicGrabBag"
+    },
+    {
+      "id": "da_heroicgrabbagplus",
+      "name": "英勇福袋+",
+      "tier": "gold",
+      "description": "获得2个【次级英雄复制器】。获得8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_HeroicGrabBagPlus"
+    },
+    {
+      "id": "da_heroicgrabbagplusplus",
+      "name": "英勇福袋++",
+      "tier": "gold",
+      "description": "获得2个【次级英雄复制器】。获得14金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_HeroicGrabBagPlusPlus"
+    },
+    {
+      "id": "da_hustler",
+      "name": "花到上头",
+      "tier": "gold",
+      "description": "你不再获得利息，但会在每个玩家对战回合开始时获得3金币。立刻获得3金币。\n\n利息是你每储存10金币时获得的额外金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Hustler"
+    },
+    {
+      "id": "da_investmentstrategyi",
+      "name": "投资策略 I",
+      "tier": "gold",
+      "description": "你每获得1利息，你弈子们获得8永久最大生命值。立刻获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_InvestmentStrategyI"
+    },
+    {
+      "id": "da_itsmebaby",
+      "name": "是我，宝贝！",
+      "tier": "gold",
+      "description": "棋盘的右下角出现1个【冠军格】。在其中的弈子获得15%伤害增幅和15%攻击速度，并且其每参与5次击杀就会掉落1金币。\n\n2026【英雄联盟传奇】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ItsMeBaby"
+    },
+    {
+      "id": "da_jeweledlotus_i",
+      "name": "珠光莲花 I",
+      "tier": "gold",
+      "description": "你的队伍获得10%暴击几率和技能暴击。\n\n【技能暴击】：技能伤害可以造成暴击。额外的【技能暴击】提供10%暴击伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_JeweledLotus_I"
+    },
+    {
+      "id": "da_knowyourenemy",
+      "name": "了解你的敌人",
+      "tier": "gold",
+      "description": "你可以看到你下回合将要和谁战斗。你的队伍获得8%伤害增幅。如果你和你的对手有任何相同的已激活羁绊，转而获得15%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_KnowYourEnemy"
+    },
+    {
+      "id": "da_lategamescaling",
+      "name": "后期收益",
+      "tier": "gold",
+      "description": "在每场玩家战斗回合开始时，获得2经验值。你的5费弈子们获得12%生命值和12%攻击速度。\n\n2025【赛博之城】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LateGameScaling"
+    },
+    {
+      "id": "da_legionofthrees",
+      "name": "三幻神",
+      "tier": "gold",
+      "description": "获得1个随机纹章。你的3费弈子们和携带着纹章的友军获得150生命值和12%攻击速度。\n\n2021【光明与黑暗】全球总决赛",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_LegionOfThrees"
+    },
+    {
+      "id": "da_magicroll",
+      "name": "魔法投掷",
+      "tier": "gold",
+      "description": "投掷3个骰子。基于总点数获得奖励。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_MagicRoll"
+    },
+    {
+      "id": "da_makeshiftarmorii",
+      "name": "应急护甲 II",
+      "tier": "gold",
+      "description": "没有携带任何装备的弈子获得50护甲和魔抗。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_MakeshiftArmorII"
+    },
+    {
+      "id": "da_maliciousmonetization",
+      "name": "恶意货币化",
+      "tier": "gold",
+      "description": "获得4金币。接下来的2个回合，敌方弈子在被击杀时会掉落2金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_MaliciousMonetization"
+    },
+    {
+      "id": "da_maxbuild",
+      "name": "顶尖构筑",
+      "tier": "gold",
+      "description": "获得10次免费商店刷新。当你到达9级时，获得3次免费商店刷新和1个【英雄复制器】。\n\n2020【银河战争】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_MaxBuild"
+    },
+    {
+      "id": "da_moneyhungry_notbroken",
+      "name": "贪财",
+      "tier": "gold",
+      "description": "立刻获得7金币，然后在每阶段开始时获得7金币。拾取金币会令你的小小英雄变大。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_MoneyHungry_NotBroken"
+    },
+    {
+      "id": "da_moneyhungryplus",
+      "name": "贪财+",
+      "tier": "gold",
+      "description": "立刻获得13金币，然后在每阶段开始时获得7金币。拾取金币会令你的小小英雄变大。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_MoneyHungryPlus"
+    },
+    {
+      "id": "da_noscoutnopivot",
+      "name": "不侦察，不变阵",
+      "tier": "gold",
+      "description": "参与玩家对战回合后，弈子无法再回到备战席或出售。在玩家对战回合后，你的队伍获得1%生命值、1%物理加成和法术加成。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_NoScoutNoPivot"
+    },
+    {
+      "id": "da_patientstudy",
+      "name": "耐心学习",
+      "tier": "gold",
+      "description": "在玩家对战回合后，如果你赢了则获得2经验值，如果你输了则获得3经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PatientStudy"
+    },
+    {
+      "id": "da_pilfer",
+      "name": "挖角",
+      "tier": "gold",
+      "description": "每回合，获得你在上场对战中首先击杀的那个弈子的1个1星复制体。当你通过这种方式获得的弈子总价值达到21金币时，获得1个【窃贼手套】。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Pilfer"
+    },
+    {
+      "id": "da_plotarmor",
+      "name": "应急护盾",
+      "tier": "gold",
+      "description": "你的队伍获得8护甲和魔法抗性。在生命值降至50%以下时，这个加成提升至40，持续至战斗结束。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_PlotArmor"
+    },
+    {
+      "id": "da_portableforge",
+      "name": "便携锻炉",
+      "tier": "gold",
+      "description": "在4件神器中选择1件。神器是可以提供独特效果的强力装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_PortableForge"
+    },
+    {
+      "id": "da_promisedprotection",
+      "name": "承诺之护",
+      "tier": "gold",
+      "description": "获得1个【圣盾使的誓约】。【圣盾使的誓约】为其携带者提供自所有来源的20%额外法力值和200最大生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_PromisedProtection"
+    },
+    {
+      "id": "da_replication",
+      "name": "反响",
+      "tier": "gold",
+      "description": "在3件基础装备中选择1件。在接下来的2个回合，都会获得1件该基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_Replication"
+    },
+    {
+      "id": "da_salvagebin",
+      "name": "打捞桶",
+      "tier": "gold",
+      "description": "立刻获得1件随机成装，并在8场玩家对战回合后获得1件基础装备。出售弈子会将其携带的成装拆分成基础装备(冠冕系装备和纹章除外)。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_SalvageBin"
+    },
+    {
+      "id": "da_salvagebinplus",
+      "name": "打捞桶+",
+      "tier": "gold",
+      "description": "立刻获得1件随机成装，并在4场玩家对战回合后获得1件基础装备。出售弈子会将其携带的成装拆分成基础装备(冠冕系装备和纹章除外)。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_SalvageBinPlus"
+    },
+    {
+      "id": "da_seraphimsstaff",
+      "name": "炽天使之拥",
+      "tier": "gold",
+      "description": "获得1个【大天使之杖】。如果【大天使之杖】的携带者拥有90%或以上的法术加成，【大天使之杖】还会为其额外提供2法力回复。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_SeraphimsStaff"
+    },
+    {
+      "id": "da_slammin",
+      "name": "物尽其用",
+      "tier": "gold",
+      "description": "获得3金币。在每场玩家对战回合结束时，如果你的备战席没有任何装备(消耗品除外)，获得2经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Slammin"
+    },
+    {
+      "id": "da_slamminplus",
+      "name": "物尽其用+",
+      "tier": "gold",
+      "description": "立刻获得4金币和10经验值。在每场玩家对战回合结束时，如果你的备战席没有任何装备(消耗品除外)，获得2经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SlamminPlus"
+    },
+    {
+      "id": "da_sololeveling",
+      "name": "独自升级",
+      "tier": "gold",
+      "description": "在接下来的5场对战，你的队伍规模为1，但你登场的那个弈子拥有巨幅提升过的各属性。该弈子的每次击杀都会使你获得1经验值。在此之后，获得2件基础装备。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SoloLeveling"
+    },
+    {
+      "id": "da_soloplate",
+      "name": "单身板甲",
+      "tier": "gold",
+      "description": "获得1个【石像鬼石板甲】。战斗开始时：如果友军是所在排的唯一弈子并携带了【石像鬼石板甲】，该弈子获得17%最大生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_SoloPlate"
+    },
+    {
+      "id": "da_speedydoublekill",
+      "name": "一波带走俩",
+      "tier": "gold",
+      "description": "获得1个【鬼索的狂暴之刃】。当2名玩家淘汰后，获得40金币。\n\n2021【命运之轮】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SpeedyDoubleKill"
+    },
+    {
+      "id": "da_spiritofredemption",
+      "name": "救赎盔甲",
+      "tier": "gold",
+      "description": "获得1个【振奋盔甲】。每5秒，【振奋盔甲】会治疗1格内的友军7.5%已损失生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_SpiritOfRedemption"
+    },
+    {
+      "id": "da_spreadingroots",
+      "name": "蔓延之根",
+      "tier": "gold",
+      "description": "获得一个随机纹章。在3场玩家对战回合后，获得另一个。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_SpreadingRoots"
+    },
+    {
+      "id": "da_spreadingrootsplus",
+      "name": "蔓延之根+",
+      "tier": "gold",
+      "description": "获得2个随机纹章和2金币。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_SpreadingRootsPlus"
+    },
+    {
+      "id": "da_staffsmith",
+      "name": "杖之工匠",
+      "tier": "gold",
+      "description": "获得2件由【无用大棒】合成的随机成装。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_Staffsmith"
+    },
+    {
+      "id": "da_swordsmith",
+      "name": "剑之工匠",
+      "tier": "gold",
+      "description": "获得2件由【暴风大剑】合成的随机成装。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_Swordsmith"
+    },
+    {
+      "id": "da_thegoldendragon",
+      "name": "金霖龙",
+      "tier": "gold",
+      "description": "获得1个【大亨之铠】。携带【大亨之铠】的弈子们占用1个弈子栏位，但获得600生命值和15%伤害减免。\n\n【大亨之铠】提供金币，以及战斗力。\n2022【巨龙之境】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_TheGoldenDragon"
+    },
+    {
+      "id": "da_timeskip",
+      "name": "时间跳跃",
+      "tier": "gold",
+      "description": "在接下来的3个回合中禁用你的商店。然后获得32经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_TimeSkip"
+    },
+    {
+      "id": "da_tonsofstatsi",
+      "name": "成吨的属性",
+      "tier": "gold",
+      "description": "你的队伍获得44生命值、4%物理加成、4%法术加成、4护甲、4魔法抗性、4%攻击速度和4法力值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_TonsOfStatsI"
+    },
+    {
+      "id": "da_tonsofstatsii",
+      "name": "成吨的属性！",
+      "tier": "gold",
+      "description": "你的队伍获得88生命值、8%物理加成、8%法术加成、8护甲、8魔法抗性、8%攻击速度和8法力值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_TonsOfStatsII"
+    },
+    {
+      "id": "da_tradesector",
+      "name": "DD街区",
+      "tier": "gold",
+      "description": "每回合获得1次商店刷新。获得2金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_TradeSector"
+    },
+    {
+      "id": "da_tradesectorplus",
+      "name": "DD街区+",
+      "tier": "gold",
+      "description": "每回合获得1次商店刷新。获得8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_TradeSectorPlus"
+    },
+    {
+      "id": "da_urf",
+      "name": "厨神阿福",
+      "tier": "gold",
+      "description": "获得1个【金铲铲】。携带了【金铲铲】或【金锅锅】系装备的弈子们获得20%攻击速度和3法力回复。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_URF"
+    },
+    {
+      "id": "da_verticalityii",
+      "name": "纵深 II",
+      "tier": "gold",
+      "description": "每有1名拥有相同羁绊的友军，这些弈子们就会获得2%物理加成、2%法术加成、2护甲和2魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_VerticalityII"
+    },
+    {
+      "id": "da_warpath",
+      "name": "征战之路",
+      "tier": "gold",
+      "description": "获得1个2星2费弈子。在造成80玩家伤害后，获得1个装有高费弈子们和装备的宝箱。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Warpath"
+    },
+    {
+      "id": "da_worththewait",
+      "name": "值得等待",
+      "tier": "gold",
+      "description": "获得1个随机1费弈子。每回合开始时都会获得该弈子的又一个1星复制体，持续至本局游戏结束。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_WorththeWait"
     },
     {
       "id": "electrocharge_2",
       "name": "电火花 II",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "友军每受到4次攻击，会对附近的敌人造成50~140(基于当前阶段)魔法伤害(1秒冷却)。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ElectrochargeII"
     },
     {
       "id": "epic_rolldown",
       "name": "8级D干的传说",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "在你到达8级时，获得20次商店刷新。\n\n2023【符文大陆传说】全球总决赛",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_EpicRolldown"
     },
     {
       "id": "explosive_growth",
       "name": "爆炸式增长",
-      "tier": "gold"
+      "tier": "gold",
+      "description": "立刻以及接下来的3个回合开始时，获得7经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ExplosiveGrowth"
     },
     {
-      "id": "pandoras_items_3",
-      "name": "潘朵拉的装备 III",
-      "tier": "prismatic"
+      "id": "pandoras_bench",
+      "name": "潘朵拉的备战席",
+      "tier": "gold",
+      "description": "在每回合开始时，处在备战席最右侧3个栏位的弈子变为随机的同费用弈子。获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PandorasBench"
     },
     {
-      "id": "radiant_relics",
-      "name": "光明圣物",
-      "tier": "prismatic"
+      "id": "pandoras_items_2",
+      "name": "潘朵拉的装备 II",
+      "tier": "gold",
+      "description": "回合开始时：你备战席的装备会随机变化。\n\n获得2件随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_PandorasItemsII"
     },
     {
-      "id": "lucky_gloves",
-      "name": "幸运手套",
-      "tier": "prismatic"
+      "id": "da_18_luxaugmentii",
+      "name": "创世神",
+      "tier": "prismatic",
+      "description": "开启1个武器库，并在3个羁绊选项中选择1个。获得1个该羁绊的【拉克丝】和1个【朔极之矛】。\n\n你棋盘上的羁绊会更有可能出现在该武器库中。【拉克丝】为她选定的羁绊提供+2计数。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_LuxAugmentII"
     },
     {
-      "id": "living_forge",
-      "name": "活体锻炉",
-      "tier": "prismatic"
+      "id": "da_bandofthievesii",
+      "name": "窃贼帮派 II",
+      "tier": "prismatic",
+      "description": "获得2个【窃贼手套】。在5场玩家对战回合后，获得另一个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BandOfThievesII"
     },
     {
-      "id": "shopping_spree",
-      "name": "大买特买",
-      "tier": "prismatic"
+      "id": "da_bandofthievesiiplus",
+      "name": "窃贼帮派 II+",
+      "tier": "prismatic",
+      "description": "获得2个【窃贼手套】。在5场玩家对战回合后，获得另一个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BandOfThievesIIPlus"
+    },
+    {
+      "id": "da_bandofthievesiiplusplus",
+      "name": "窃贼帮派 II++",
+      "tier": "prismatic",
+      "description": "获得2个【窃贼手套】。在3场玩家对战回合后，获得另一个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BandOfThievesIIPlusPlus"
+    },
+    {
+      "id": "da_baronslair",
+      "name": "男爵幻域",
+      "tier": "prismatic",
+      "description": "获得1件随机坦克装备。在战斗开始8秒后，你的队伍每秒获得4%额外物理加成和法术加成，持续至战斗结束。\n\n2025云顶之弈巴黎公开赛",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BaronsLair"
+    },
+    {
+      "id": "da_beltoverflow",
+      "name": "腰带溢流",
+      "tier": "prismatic",
+      "description": "获得4个【巨人腰带】。你的【巨人腰带】提供+85额外生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BeltOverflow"
+    },
+    {
+      "id": "da_birthdaypresent",
+      "name": "生日礼物",
+      "tier": "prismatic",
+      "description": "在你每次升级时提供1个2星弈子和1金币。这个弈子的费用位阶是你的等级减4(最大值：5费)。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_BirthdayPresent"
+    },
+    {
+      "id": "da_bronzeforlifeii",
+      "name": "终身黄铜 II",
+      "tier": "prismatic",
+      "description": "每拥有1个黄铜级羁绊，你的队伍获得2.5%伤害增幅和4护甲与魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BronzeForLifeII"
+    },
+    {
+      "id": "da_buildabud",
+      "name": "来个好伙计！",
+      "tier": "prismatic",
+      "description": "获得1个随机3星1费弈子。获得6金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_BuildABud"
+    },
+    {
+      "id": "da_buriedtreasuresiii",
+      "name": "珍藏财宝 III",
+      "tier": "prismatic",
+      "description": "立刻以及接下来的6个回合开始时，获得1件随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BuriedTreasuresIII"
+    },
+    {
+      "id": "da_calltochaos",
+      "name": "混沌召唤",
+      "tier": "prismatic",
+      "description": "获得1个强大的随机奖励。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_CallToChaos"
+    },
+    {
+      "id": "da_celestialblessingiii",
+      "name": "星界赐福 III",
+      "tier": "prismatic",
+      "description": "你的队伍获得25%全能吸血。溢出的治疗量会转换为护盾，至多转化为1000生命值护盾。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CelestialBlessingIII"
+    },
+    {
+      "id": "da_comebackstory",
+      "name": "绝境反击",
+      "tier": "prismatic",
+      "description": "每损失1玩家生命值，你的队伍获得4生命值和0.3%攻击速度。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ComebackStory"
+    },
+    {
+      "id": "da_commercecore",
+      "name": "贸易中心",
+      "tier": "prismatic",
+      "description": "立刻获得16次免费商店刷新，并在剩余游戏时间内每回合获得3次免费商店刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CommerceCore"
+    },
+    {
+      "id": "da_componentquest",
+      "name": "基础装备大冒险",
+      "tier": "prismatic",
+      "description": "获得1件随机基础装备和1金币。下7次你赢得玩家对战回合时，获得1件不同的随机基础装备。在此之后，获得5金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ComponentQuest"
+    },
+    {
+      "id": "da_coronation",
+      "name": "加冕礼",
+      "tier": "prismatic",
+      "description": "获得1个【金铲铲冠冕】。【金铲铲冠冕】、【金锅锅冠冕】和【金锅铲冠冕】为携带者提供20%攻击速度、25%物理加成和30%法术加成。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Coronation"
+    },
+    {
+      "id": "da_cursedcrown",
+      "name": "诅咒冠冕",
+      "tier": "prismatic",
+      "description": "获得+最大队伍规模，但你在输掉一场玩家对战回合后会承受2倍的玩家伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CursedCrown"
+    },
+    {
+      "id": "da_expectedunexpectedness",
+      "name": "意料之中的意外",
+      "tier": "prismatic",
+      "description": "立刻以及下2个阶段开始时，投掷3个骰子。基于总点数获得各种奖励。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ExpectedUnexpectedness"
+    },
+    {
+      "id": "da_forgedinstrength",
+      "name": "神力天铸",
+      "tier": "prismatic",
+      "description": "获得1件随机神器。当你降至35生命值时，额外获得1件随机神器、1件随机成装、以及2件随机基础装备。\n\n2023【强音争霸】全球总决赛",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ForgedInStrength"
+    },
+    {
+      "id": "da_giantandmighty",
+      "name": "大而有力",
+      "tier": "prismatic",
+      "description": "你的队伍体型变大，获得200生命值和10%最大生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GiantAndMighty"
+    },
+    {
+      "id": "da_goinglong",
+      "name": "遥遥领先",
+      "tier": "prismatic",
+      "description": "你不再获得利息。立刻获得10金币。在每场玩家对战后，获得4经验值。\n\n利息是你每储存10金币时获得的额外金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoingLong"
+    },
+    {
+      "id": "da_goldengamble",
+      "name": "黄金赌约",
+      "tier": "prismatic",
+      "description": "获得2金币，并抛掷1枚硬币。如果硬币正面朝上，获得1个【光明版幸运装备宝箱】。如果硬币反面朝上，获得2个【成装锻造器】。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoldenGamble"
+    },
+    {
+      "id": "da_goldengambleplus",
+      "name": "黄金赌约+",
+      "tier": "prismatic",
+      "description": "获得3金币，并抛掷1枚硬币。如果硬币正面朝上，获得1个【光明版幸运装备宝箱】。如果硬币反面朝上，获得2个【成装锻造器】。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoldenGamblePlus"
+    },
+    {
+      "id": "da_goldengambleplusplus",
+      "name": "黄金赌约++",
+      "tier": "prismatic",
+      "description": "获得6金币，并抛掷1枚硬币。如果硬币正面朝上，获得1个【光明版幸运装备宝箱】。如果硬币反面朝上，获得2个【成装锻造器】。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_GoldenGamblePlusPlus"
+    },
+    {
+      "id": "da_hardcommit",
+      "name": "硬性承诺",
+      "tier": "prismatic",
+      "description": "获得1个随机纹章。立刻以及每阶段开始时，获得该羁绊的1个1星弈子，且该弈子的费用相当于当前阶段数(最多为5)，并获得3金币。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_HardCommit"
+    },
+    {
+      "id": "da_hedgefund",
+      "name": "对冲基金",
+      "tier": "prismatic",
+      "description": "获得22金币。你的最大利息提升至10金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_HedgeFund"
+    },
+    {
+      "id": "da_holdtheline",
+      "name": "坚守防线",
+      "tier": "prismatic",
+      "description": "战斗开始时，你的前排每有1名弈子，后两排的弈子就会获得10%法术加成和9%物理加成。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_HoldTheLine"
+    },
+    {
+      "id": "da_investedplus",
+      "name": "投资+",
+      "tier": "prismatic",
+      "description": "获得26金币。在每回合开始时，超过50金币后，每拥有10金币就会获得1次商店刷新(最多80金币)。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_InvestedPlus"
+    },
+    {
+      "id": "da_investedplusplus",
+      "name": "投资++",
+      "tier": "prismatic",
+      "description": "获得45金币。在每回合开始时，超过50金币后，每拥有10金币就会获得1次商店刷新(最多80金币)。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_InvestedPlusPlus"
+    },
+    {
+      "id": "da_investmentstrategy",
+      "name": "投资策略 II",
+      "tier": "prismatic",
+      "description": "你每获得1利息，你弈子们获得10永久最大生命值。你的最大利息提升2。立刻获得8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_InvestmentStrategy"
+    },
+    {
+      "id": "da_jeweledlotus_ii",
+      "name": "珠光莲花 II",
+      "tier": "prismatic",
+      "description": "你的队伍获得25%暴击几率，10%暴击伤害和【技能暴击】。\n\n【技能暴击】：技能伤害可以造成暴击。额外的【技能暴击】提供10%暴击伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_JeweledLotus_II"
+    },
+    {
+      "id": "da_levelup",
+      "name": "升级咯！",
+      "tier": "prismatic",
+      "description": "在你购买经验值时，获得额外2经验值。立刻获得6经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LevelUp"
+    },
+    {
+      "id": "da_luckyglovesplus",
+      "name": "幸运手套+",
+      "tier": "prismatic",
+      "description": "【窃贼手套】总会为你的弈子们提供理想的装备。立刻获得2个【拳套】，然后在4场玩家对战回合后获得另一个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_LuckyGlovesPlus"
+    },
+    {
+      "id": "da_luxurysubscription",
+      "name": "奢侈品订购",
+      "tier": "prismatic",
+      "description": "获得1个包裹，包含1个5费弈子、1个2星1费弈子和3金币。\n\n在接下来的2个阶段开始时，再次获得该包裹。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LuxurySubscription"
+    },
+    {
+      "id": "da_min_max",
+      "name": "可大可小",
+      "tier": "prismatic",
+      "description": "获得1个【金制拆卸器】和4件随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_Min_Max"
+    },
+    {
+      "id": "da_moneymonsoon",
+      "name": "摇钱树",
+      "tier": "prismatic",
+      "description": "立刻并在剩余游戏时间内每回合获得7金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_MoneyMonsoon"
+    },
+    {
+      "id": "da_nestinganvils",
+      "name": "锻造器套娃",
+      "tier": "prismatic",
+      "description": "获得1个【神器锻造器】。在你开启它之后，获得1个【基础装备锻造器】。开启这个【基础装备锻造器】后，又获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_NestingAnvils"
+    },
+    {
+      "id": "da_nestinganvilsplus",
+      "name": "锻造器套娃+",
+      "tier": "prismatic",
+      "description": "获得1个【神器锻造器】。在你开启它之后，获得1个【基础装备锻造器】。开启这个【基础装备锻造器】后，又获得8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_NestingAnvilsPlus"
+    },
+    {
+      "id": "da_onebufftwobuff",
+      "name": "1个霸符，2个霸符",
+      "tier": "prismatic",
+      "description": "获得1个【红霸符】、1个【蓝霸符】和1个【英雄复制器】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_OneBuffTwoBuff"
+    },
+    {
+      "id": "da_prismaticdestiny",
+      "name": "棱彩命运",
+      "tier": "prismatic",
+      "description": "获得1个随机棱彩阶强化符文和4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PrismaticDestiny"
+    },
+    {
+      "id": "da_prismaticdestinyplus",
+      "name": "棱彩命运+",
+      "tier": "prismatic",
+      "description": "获得1个随机棱彩阶强化符文和7金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PrismaticDestinyPlus"
+    },
+    {
+      "id": "da_prismaticticket",
+      "name": "棱彩门票",
+      "tier": "prismatic",
+      "description": "每当你的商店刷新时，你都有45%几率获得1次免费刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PrismaticTicket"
+    },
+    {
+      "id": "da_radiantrascal",
+      "name": "光明无赖",
+      "tier": "prismatic",
+      "description": "获得1个【光明版窃贼手套】。每回合装备2件随机光明武器。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_RadiantRascal"
+    },
+    {
+      "id": "da_retribution",
+      "name": "正义报复",
+      "tier": "prismatic",
+      "description": "获得2个【正义之手】。携带【正义之手】的友军获得技能暴击和25%暴击几率。\n\n【技能暴击】：技能伤害可以造成暴击。额外的【技能暴击】提供10%暴击伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Retribution"
+    },
+    {
+      "id": "da_shimmerscaleessence",
+      "name": "金鳞精萃",
+      "tier": "prismatic",
+      "description": "获得1个【投机者之刃】。在6场玩家对战回合后，获得1个【大亨之铠】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ShimmerscaleEssence"
+    },
+    {
+      "id": "da_soulawakening",
+      "name": "灵魂唤醒",
+      "tier": "prismatic",
+      "description": "战斗开始时：你的队伍每秒获得1.5%物理加成和法术加成，持续10秒。在最大层数时，造成12%额外真实伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_SoulAwakening"
+    },
+    {
+      "id": "da_starringup",
+      "name": "D出未来",
+      "tier": "prismatic",
+      "description": "在你将个弈子升至3星后，你会被设为级。立刻以及每回合开始时，获得次刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_StarringUp"
+    },
+    {
+      "id": "da_subscriptionservice",
+      "name": "订阅服务",
+      "tier": "prismatic",
+      "description": "立刻以及每阶段开始时，开启1个由个不同费弈子组成的商店，并获得金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SubscriptionService"
+    },
+    {
+      "id": "da_sweettreats",
+      "name": "甜点",
+      "tier": "prismatic",
+      "description": "获得1个【神器锻造器】。你的弈子们每携带1件装备，你的队伍就会获得16生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_SweetTreats"
+    },
+    {
+      "id": "da_swordoverflow",
+      "name": "大剑溢流",
+      "tier": "prismatic",
+      "description": "获得4个【暴风大剑】。你的【暴风大剑】提供+4攻击速度。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_SwordOverflow"
+    },
+    {
+      "id": "da_tacticianskitchen",
+      "name": "锅铲厨房",
+      "tier": "prismatic",
+      "description": "获得1个随机纹章。在3个回合后，获得1个【金锅铲冠冕】。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_TacticiansKitchen"
+    },
+    {
+      "id": "da_thetraittree",
+      "name": "羁绊树",
+      "tier": "prismatic",
+      "description": "获得3个随机纹章和2金币。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_TheTraitTree"
+    },
+    {
+      "id": "da_thetraittreeplus",
+      "name": "羁绊树+",
+      "tier": "prismatic",
+      "description": "获得3个随机纹章、1个【装备重铸器】和4金币。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_TheTraitTreePlus"
+    },
+    {
+      "id": "da_traitladder",
+      "name": "羁绊天梯",
+      "tier": "prismatic",
+      "description": "获得1个随机纹章。在1场玩家对战回合中登场2个非唯一羁绊后，获得1个奖励。此后提高获得奖励所需的羁绊数，以及奖励的规模。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_TraitLadder"
+    },
+    {
+      "id": "da_upwardmobility",
+      "name": "上进心",
+      "tier": "prismatic",
+      "description": "购买经验值的费用减少1。每当你升级时，获得2生命值和2次刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_UpwardMobility"
+    },
+    {
+      "id": "da_urfsgrabbag",
+      "name": "阿福的百宝袋",
+      "tier": "prismatic",
+      "description": "获得1个【金铲铲】、3件随机基础装备和5金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_UrfsGrabBag"
+    },
+    {
+      "id": "da_verticalityiii",
+      "name": "纵深 III",
+      "tier": "prismatic",
+      "description": "每有1名拥有相同羁绊的友军，这些弈子们就会获得3.5%物理加成、3.5%法术加成、3.5护甲和3.5魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_VerticalityIII"
+    },
+    {
+      "id": "da_wandoverflow",
+      "name": "法杖溢流",
+      "tier": "prismatic",
+      "description": "获得4个【无用大棒】。你的【无用大棒】提供+5攻击速度。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_WandOverflow"
+    },
+    {
+      "id": "da_westicktogether",
+      "name": "水乳交融",
+      "tier": "prismatic",
+      "description": "获得1个随机纹章和1个【成装锻造器】。与该纹章有同一羁绊的友军获得30%攻击速度。0 0\n\n2025【双城之战2】全球总决赛",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_WeStickTogether"
+    },
+    {
+      "id": "da_worththewaitii",
+      "name": "值得等待 II",
+      "tier": "prismatic",
+      "description": "获得1个随机2费弈子的2个1星复制体。每回合开始时都会获得该弈子的又一个1星复制体，持续至本局游戏结束。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_WorththeWaitII"
+    },
+    {
+      "id": "da_wovenmagic",
+      "name": "纺织魔法",
+      "tier": "prismatic",
+      "description": "获得1件随机基础装备。你的弈子们每消耗2200法力值，就会提供1件额外基础装备(最大：0/3)。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_WovenMagic"
     },
     {
       "id": "golden_egg",
       "name": "金蛋",
-      "tier": "prismatic"
+      "tier": "prismatic",
+      "description": "获得1个大金蛋，需要11个回合来孵化，在孵化时提供大量战利品。赢得玩家对战回合后会使孵化倒计时加快1个额外回合。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_GoldenEgg"
+    },
+    {
+      "id": "living_forge",
+      "name": "活体锻炉",
+      "tier": "prismatic",
+      "description": "立刻以及每10场玩家对战回合后，获得1个【神器锻造器】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_LivingForge"
+    },
+    {
+      "id": "lucky_gloves",
+      "name": "幸运手套",
+      "tier": "prismatic",
+      "description": "【窃贼手套】总会为你的弈子们提供理想的装备。获得2个【拳套】和4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LuckyGloves"
+    },
+    {
+      "id": "pandoras_items_3",
+      "name": "潘朵拉的装备 III",
+      "tier": "prismatic",
+      "description": "回合开始时：你备战席的装备会随机变化。\n\n获得1件光明武器。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_PandorasItemsIII"
+    },
+    {
+      "id": "radiant_relics",
+      "name": "光明圣物",
+      "tier": "prismatic",
+      "description": "从5件光明武器中选择1件。获得1个【装备拆卸器】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_RadiantRelic"
+    },
+    {
+      "id": "shopping_spree",
+      "name": "大买特买",
+      "tier": "prismatic",
+      "description": "在你升级时，获得相当于你等级数+1的商店刷新次数。获得6金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_ShoppingSpree"
+    },
+    {
+      "id": "branching_out",
+      "name": "节外生枝",
+      "tier": "silver",
+      "description": "获得1个随机纹章。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_18_BranchingOut"
+    },
+    {
+      "id": "caretakers_ally",
+      "name": "游神的盟友",
+      "tier": "silver",
+      "description": "立刻获得1个随机2费弈子。在你每次升级时，再次获得1个相同弈子。\n\n弈子：0",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_CaretakersAlly"
+    },
+    {
+      "id": "celestial_blessing_1",
+      "name": "星界赐福 I",
+      "tier": "silver",
+      "description": "你的队伍获得12%全能吸血。溢出的治疗量会转换为护盾，至多转化为200生命值护盾。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CelestialBlessingI"
+    },
+    {
+      "id": "da_18_branchingoutplus",
+      "name": "节外生枝+",
+      "tier": "silver",
+      "description": "获得1个随机纹章和1个【装备重铸器】。",
+      "keywords": [
+        "纹章",
+        "转职",
+        "Crest",
+        "Crown",
+        "之徽",
+        "之冕"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "emblem",
+      "apiName": "DA_18_BranchingOutPlus"
+    },
+    {
+      "id": "da_18_goodforsomethingi",
+      "name": "有用之材 I",
+      "tier": "silver",
+      "description": "未携带装备的弈子们在阵亡时有40%几率掉落1金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_18_GoodForSomethingI"
+    },
+    {
+      "id": "da_18_infernotraitaugment",
+      "name": "烧起来",
+      "tier": "silver",
+      "description": "你的1费和2费【地狱火】弈子们获得0.2物理加成和法术加成。这些弈子中，在上场对战中造成最高伤害的那个弈子将会获得双倍此加成。获得1个【韦鲁斯】和1个【阿卡丽】。",
+      "keywords": [
+        "羁绊",
+        "专属",
+        "地狱火"
+      ],
+      "stages": [],
+      "traitNames": [
+        "地狱火"
+      ],
+      "category": "trait",
+      "apiName": "DA_18_InfernoTraitAugment"
+    },
+    {
+      "id": "da_18_onestwosthree",
+      "name": "一一二三",
+      "tier": "silver",
+      "description": "获得2个1费弈子、1个2费弈子和1个3费弈子。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_18_OnesTwosThree"
+    },
+    {
+      "id": "da_18_onetwofive",
+      "name": "一，二，五！",
+      "tier": "silver",
+      "description": "获得1件随机基础装备、2金币和1个随机5费弈子。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_18_OneTwoFive"
+    },
+    {
+      "id": "da_18_residualmagic",
+      "name": "残留魔力",
+      "tier": "silver",
+      "description": "你的队伍获得60生命值。你每次购买【自然仙灵】，都会将该加成提升10。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_18_ResidualMagic"
+    },
+    {
+      "id": "da_18_residualmagicplus",
+      "name": "残留魔力+",
+      "tier": "silver",
+      "description": "你的队伍获得75生命值。你每次购买【自然仙灵】，都会将该加成提升10。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_18_ResidualMagicPlus"
+    },
+    {
+      "id": "da_18_residualmagicplusplus",
+      "name": "残留魔力++",
+      "tier": "silver",
+      "description": "你的队伍获得90生命值。你每次购买【自然仙灵】，都会将该加成提升10。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_18_ResidualMagicPlusPlus"
+    },
+    {
+      "id": "da_18_wisprebateplus",
+      "name": "仙灵报恩",
+      "tier": "silver",
+      "description": "你每次购买【自然仙灵】，都会获得2金币。立刻获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_18_WispRebatePlus"
+    },
+    {
+      "id": "da_18_wisprebateplusplus",
+      "name": "仙灵报恩+",
+      "tier": "silver",
+      "description": "你每次购买【自然仙灵】，都会获得2金币。立刻获得8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_18_WispRebatePlusPlus"
+    },
+    {
+      "id": "da_augmentedpower",
+      "name": "强化之能量",
+      "tier": "silver",
+      "description": "你的下一个强化符文位阶提高一阶。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_AugmentedPower"
+    },
+    {
+      "id": "da_backupbows",
+      "name": "战时补给：反曲之弓",
+      "tier": "silver",
+      "description": "获得1个【反曲之弓】。在你的弈子们攻击1000次后，额外获得2个。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BackupBows"
+    },
+    {
+      "id": "da_bandofthieves",
+      "name": "窃贼帮派",
+      "tier": "silver",
+      "description": "获得1个【窃贼手套】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_BandOfThieves"
+    },
+    {
+      "id": "da_boxinglessons",
+      "name": "拳击课程",
+      "tier": "silver",
+      "description": "战斗开始时，前排每有1个弈子，你的队伍获得30生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_BoxingLessons"
+    },
+    {
+      "id": "da_calledshot",
+      "name": "进攻宣告",
+      "tier": "silver",
+      "description": "将你的连胜数设为+4。获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CalledShot"
+    },
+    {
+      "id": "da_capitalgainsi",
+      "name": "资本利得 I",
+      "tier": "silver",
+      "description": "储存相当于你获得利息的金币。在阶段3-3，获得相当于你100已储存金币的金币。立刻获得1金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CapitalGainsI"
+    },
+    {
+      "id": "da_carveapath",
+      "name": "战时补给：暴风大剑",
+      "tier": "silver",
+      "description": "获得1个【暴风大剑】。在你的弈子们造成65000物理伤害后，额外获得2个。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_CarveAPath"
+    },
+    {
+      "id": "da_champdelivery",
+      "name": "弈子配送",
+      "tier": "silver",
+      "description": "获得3个2费弈子。在6个回合后，再获得3个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ChampDelivery"
+    },
+    {
+      "id": "da_champdeliveryplus",
+      "name": "弈子配送+",
+      "tier": "silver",
+      "description": "获得3个3费弈子。在6个回合后，再获得3个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ChampDeliveryPlus"
+    },
+    {
+      "id": "da_champdeliveryplusplus",
+      "name": "弈子配送++",
+      "tier": "silver",
+      "description": "获得3个4费弈子。在6个回合后，再获得3个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ChampDeliveryPlusPlus"
+    },
+    {
+      "id": "da_cognitivetax",
+      "name": "认知税",
+      "tier": "silver",
+      "description": "获得8金币和1经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CognitiveTax"
+    },
+    {
+      "id": "da_cognitivetaxplus",
+      "name": "认知税+",
+      "tier": "silver",
+      "description": "获得12金币和3经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CognitiveTaxPlus"
+    },
+    {
+      "id": "da_componentbuffet",
+      "name": "基础装备自助餐",
+      "tier": "silver",
+      "description": "每当你将要获得1件基础装备时，转而获得1个【基础装备锻造器】。获得1件随机基础装备。这个锻造器提供4个选项。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ComponentBuffet"
+    },
+    {
+      "id": "da_corrosion",
+      "name": "腐蚀",
+      "tier": "silver",
+      "description": "前两排的敌人每2秒损失4护甲和魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Corrosion"
+    },
+    {
+      "id": "da_craftedcrafting",
+      "name": "精心打造",
+      "tier": "silver",
+      "description": "每当你打造1件成装时，获得2次刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_CraftedCrafting"
+    },
+    {
+      "id": "da_dummify",
+      "name": "假人化",
+      "tier": "silver",
+      "description": "失去你棋盘上和备战席的所有弈子。获得1个【训练假人】，其生命值为所有失去弈子总生命值的60%。假人每阶段获得1150生命值。获得1个随机2星2费非坦克弈子。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Dummify"
+    },
+    {
+      "id": "da_expedition",
+      "name": "远征",
+      "tier": "silver",
+      "description": "在每回合开始时，失去备战席最右侧栏位的弈子。当你通过这种方式失去的弈子总价值达到33金币时，获得强力奖励。立刻获得1个3费弈子。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Expedition"
+    },
+    {
+      "id": "da_extrabuckles",
+      "name": "战时补给：巨人腰带",
+      "tier": "silver",
+      "description": "获得1个【巨人腰带】。在你的弈子们承受75000伤害后，额外获得2个。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ExtraBuckles"
+    },
+    {
+      "id": "da_feelinglucky",
+      "name": "手气不错",
+      "tier": "silver",
+      "description": "获得12金币，然后抛掷1枚硬币。如果硬币正面朝上，额外获得4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_FeelingLucky"
+    },
+    {
+      "id": "da_findyourcenter",
+      "name": "C位的觉悟",
+      "tier": "silver",
+      "description": "战斗开始时，位于棋盘中心的那个己方弈子获得15%伤害增幅和25%最大生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_FindYourCenter"
+    },
+    {
+      "id": "da_flowingtears",
+      "name": "战时补给：女神之泪",
+      "tier": "silver",
+      "description": "获得1个【女神之泪】。在你的弈子们消耗6500法力值后，额外获得2个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_FlowingTears"
+    },
+    {
+      "id": "da_futurefocused",
+      "name": "高瞻远瞩",
+      "tier": "silver",
+      "description": "你失去20玩家生命值，但在5个玩家对战回合后，获得3个4费弈子和8金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_FutureFocused"
+    },
+    {
+      "id": "da_glasscannon_silver",
+      "name": "玻璃大炮 I",
+      "tier": "silver",
+      "description": "在后排开始战斗的友军，在战斗开始时的生命值为80%，但会获得16%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GlassCannon_Silver"
+    },
+    {
+      "id": "da_grouphugi",
+      "name": "拥抱 I",
+      "tier": "silver",
+      "description": "战斗开始时：弈子为其他邻格弈子提供6护甲和魔抗。这个效果可以叠加。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_GroupHugI"
+    },
+    {
+      "id": "da_ironassets",
+      "name": "黑铁资产",
+      "tier": "silver",
+      "description": "获得1个【基础装备锻造器】和3金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_IronAssets"
+    },
+    {
+      "id": "da_itemgrabbag",
+      "name": "装备百宝袋 I",
+      "tier": "silver",
+      "description": "获得1件随机成装。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_ItemGrabBag"
+    },
+    {
+      "id": "da_kickstart",
+      "name": "博弈开启",
+      "tier": "silver",
+      "description": "获得1个随机2星2费弈子和1金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_KickStart"
+    },
+    {
+      "id": "da_kingslayer",
+      "name": "弑君突刺",
+      "tier": "silver",
+      "description": "在赢得玩家对战回合后，获得1金币。如果这位玩家之前的生命值多于你的生命值，转而获得6金币。获得1金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Kingslayer"
+    },
+    {
+      "id": "da_lategamespecialist",
+      "name": "后期专家",
+      "tier": "silver",
+      "description": "当你到达9级时，获得27金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LateGameSpecialist"
+    },
+    {
+      "id": "da_latentforge",
+      "name": "休眠锻炉",
+      "tier": "silver",
+      "description": "在8场玩家对战回合后，获得1个【神器锻造器】。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_LatentForge"
+    },
+    {
+      "id": "da_lineup",
+      "name": "双子守护神",
+      "tier": "silver",
+      "description": "战斗开始时，前排每有一名友军，你的队伍获得护甲和魔抗。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_Lineup"
+    },
+    {
+      "id": "da_loadeddice",
+      "name": "灌铅骰子",
+      "tier": "silver",
+      "description": "你在投掷骰子或抛掷硬币时总能更幸运。\n\n投掷1个骰子，获得与点数相等的金币。然后抛掷1枚硬币，如果硬币正面朝上，获得1金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_LoadedDice"
+    },
+    {
+      "id": "da_missedconnections",
+      "name": "别再错过",
+      "tier": "silver",
+      "description": "获得每个1费弈子各1个。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_MissedConnections"
+    },
+    {
+      "id": "da_patienceisavirtue",
+      "name": "耐心是一种美德",
+      "tier": "silver",
+      "description": "立刻获得4次刷新。每回合，如果你在上回合未购买任何弈子，则会获得1次免费刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_PatienceIsAVirtue"
+    },
+    {
+      "id": "da_quickstreaks",
+      "name": "连败连胜才能连鸡",
+      "tier": "silver",
+      "description": "你现在赢得或输掉对战后，增加的连胜或连败数翻倍。获得2金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_QuickStreaks"
+    },
+    {
+      "id": "da_recombobulator",
+      "name": "变形重组器",
+      "tier": "silver",
+      "description": "你棋盘上的弈子们永久变形为1个比自身高1费的随机弈子(最高5费)。获得2个【装备拆卸器】和3次免费刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_Recombobulator"
+    },
+    {
+      "id": "da_rollingfordays",
+      "name": "D个痛快！",
+      "tier": "silver",
+      "description": "获得10次免费商店刷新。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_RollingForDays"
+    },
+    {
+      "id": "da_silverdestiny",
+      "name": "白银命运",
+      "tier": "silver",
+      "description": "获得1个随机白银阶强化符文和2金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SilverDestiny"
+    },
+    {
+      "id": "da_silverdestinyplus",
+      "name": "白银命运+",
+      "tier": "silver",
+      "description": "获得1个随机白银阶强化符文和4金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SilverDestinyPlus"
+    },
+    {
+      "id": "da_silverdestinyplusplus",
+      "name": "白银命运++",
+      "tier": "silver",
+      "description": "获得1个随机白银阶强化符文和7金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SilverDestinyPlusPlus"
+    },
+    {
+      "id": "da_silverspoon",
+      "name": "银汤匙",
+      "tier": "silver",
+      "description": "获得10经验值。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_SilverSpoon"
+    },
+    {
+      "id": "da_sliceoflife",
+      "name": "人生切片",
+      "tier": "silver",
+      "description": "每阶段2次，获得1个随机弈子。其费用会随阶段数提升。这个效果会在收到1个5费弈子后结束。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_SliceOfLife"
+    },
+    {
+      "id": "da_slightlymagicroll",
+      "name": "轻量魔法投掷",
+      "tier": "silver",
+      "description": "投掷1个骰子。基于总点数获得奖励。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_SlightlyMagicRoll"
+    },
+    {
+      "id": "da_smallgrabbag",
+      "name": "小小福袋",
+      "tier": "silver",
+      "description": "获得2件随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_SmallGrabBag"
+    },
+    {
+      "id": "da_standunited",
+      "name": "联合作战",
+      "tier": "silver",
+      "description": "在你的队伍之中，每有1个已激活的非唯一羁绊，你的单位们就会获得1.5%物理加成和1.5%法术加成。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_StandUnited"
+    },
+    {
+      "id": "da_teambuilding",
+      "name": "团队建设",
+      "tier": "silver",
+      "description": "获得1个【次级英雄复制器】。在5场玩家对战回合后获得另一个。\n\n这个物品允许你能复制1个3费或以下的弈子。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_TeamBuilding"
+    },
+    {
+      "id": "da_thetower",
+      "name": "高塔",
+      "tier": "silver",
+      "description": "获得1个巨大的【训练假人】。每4秒，电击距离最近的3个敌人，造成5%最大生命值的真实伤害。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_TheTower"
+    },
+    {
+      "id": "da_twinguardians",
+      "name": "双子守护神",
+      "tier": "silver",
+      "description": "如果你的第一排有且只有2名友军，为他们提供100生命值、35护甲和35魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_TwinGuardians"
+    },
+    {
+      "id": "da_verticalityi",
+      "name": "纵深 I",
+      "tier": "silver",
+      "description": "每有1名拥有相同羁绊的友军，这些弈子们就会获得1.5%物理加成、1.5%法术加成、1.5护甲和1.5魔法抗性。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_VerticalityI"
+    },
+    {
+      "id": "da_youngandwildandfree",
+      "name": "不拘一格",
+      "tier": "silver",
+      "description": "选秀环节期间，你可自由移动。获得5金币。",
+      "keywords": [
+        "经济",
+        "运营",
+        "搜牌"
+      ],
+      "stages": [
+        "2-1"
+      ],
+      "traitNames": [],
+      "category": "economy",
+      "apiName": "DA_YoungAndWildAndFree"
+    },
+    {
+      "id": "electrocharge_1",
+      "name": "电火花 I",
+      "tier": "silver",
+      "description": "友军每受到4次攻击，会对附近的敌人造成30~90(基于当前阶段)魔法伤害(1秒冷却)。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_ElectrochargeI"
+    },
+    {
+      "id": "focused_fire",
+      "name": "集中火力",
+      "tier": "silver",
+      "description": "你的队伍获得10%物理加成。每5秒，额外获得5%。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_FocusedFire"
+    },
+    {
+      "id": "healing_orbs_1",
+      "name": "治疗法球 I",
+      "tier": "silver",
+      "description": "当1名敌人阵亡时，1名附近的友军治疗250生命值。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_HealingOrbsI"
+    },
+    {
+      "id": "makeshift_armor_1",
+      "name": "应急护甲 I",
+      "tier": "silver",
+      "description": "没有携带任何装备的弈子获得30护甲和魔抗。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "2-1",
+        "3-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_MakeshiftArmorI"
+    },
+    {
+      "id": "pandoras_items_1",
+      "name": "潘朵拉的装备 I",
+      "tier": "silver",
+      "description": "回合开始时：你备战席的装备会随机变化。\n\n获得1件随机基础装备。",
+      "keywords": [
+        "功能",
+        "装备"
+      ],
+      "stages": [
+        "2-1",
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "utility",
+      "apiName": "DA_PandorasItemsI"
+    },
+    {
+      "id": "partial_ascension",
+      "name": "部分飞升",
+      "tier": "silver",
+      "description": "在战斗开始12秒后，你的单位们获得20%伤害增幅。",
+      "keywords": [
+        "战力",
+        "战斗"
+      ],
+      "stages": [
+        "3-2",
+        "4-2"
+      ],
+      "traitNames": [],
+      "category": "combat",
+      "apiName": "DA_PartialAscension"
     }
   ]
 }

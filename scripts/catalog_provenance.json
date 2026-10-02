@@ -9,11 +9,9 @@
   "rosterReference": "https://op.gg/zh-cn/tft/meta-trends/champion?version=18.3",
   "itemReference": "https://op.gg/zh-cn/tft/meta-trends/item?version=18.3",
   "traitsReference": "https://op.gg/zh-cn/tft/set/18",
-  "augmentNameReference": "https://op.gg/zh-cn/tft/meta-trends/augments?version=18.3",
+  "augmentNameReference": "https://tft-lab.com/zh/handbook/augments",
   "augmentTierReferences": [
-    "https://mobalytics.gg/tft/augments",
-    "https://mobalytics.gg/tft/augments?tier=2",
-    "https://mobalytics.gg/tft/augments?tier=3"
+    "https://tft-lab.com/zh/handbook/augments"
   ],
   "guideIndex": "https://mobalytics.gg/tft/team-comps",
   "notes": [
@@ -21,10 +19,21 @@
     "65 base unit records plus 9 explicitly identified Lux origin variants; generic Lux is a catalog identity, not a tenth origin. Lux variants are mutually exclusive.",
     "Ten component identities; all 36 recipes formed by pairs of the eight ordinary components. Emblems, artifacts and radiant items are outside this recipe catalog.",
     "36 trait identities; unit.traits uses Chinese names, matched against this registry. Elementalist is normalized to its trait name 大元素使.",
-    "Augments are a curated subset of 24, not a claim to list every live augment. Three tier definitions are complete.",
     "Excluded temporarily disabled CN augments: 挑战者的优雅, 黑暗仪式, 三相庇护, 弈子套娃.",
     "The four original Mobalytics guide candidates were removed from sources.json after Actions received HTTP 403. Catalog reference URLs remain provenance, not active crawler sources.",
     "Reference entries are excluded from extraction. The original local sample participates in extraction, with demo=true required whenever sample input is included. Local verification uses a mocked LLM and no paid API.",
-    "Published demo database remains unchanged until a valid live extraction succeeds."
-  ]
+    "251 active handbook entries for set18-18.3b-live-r3, cross-referenced with version-pinned CommunityDragon game data; CN B-disabled names excluded. Availability may change after the verification date.",
+    "Existing augment IDs preserved by localized name. Pandoras Bench corrected to gold in the current handbook. Search categories are descriptive heuristics, not win-rate or effect simulations.",
+    "Current roster has emblem-granting augments and Cursed Crown but does not list the legacy per-trait Crest/Crown families; those are not fabricated.",
+    "Published teaching comps preserved; augment catalog refreshed locally without calling an LLM. All original teaching transcripts keep demo=true."
+  ],
+  "augmentGameDataReference": "https://raw.communitydragon.org/16.19/cdragon/tft/zh_cn.json",
+  "augmentSnapshot": "set18-18.3b-live-r3",
+  "augmentCounts": {
+    "silver": 69,
+    "gold": 115,
+    "prismatic": 67,
+    "total": 251
+  },
+  "augmentGameDataSha256": "70f3bbbc5f819cee7f20032ab027d2247c14a47bf2458a4722d1edc82875d845"
 }

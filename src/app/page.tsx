@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Activity, ArrowRightLeft, Check, ClipboardList, Download, RefreshCw, Shield, Swords, Trash2 } from "lucide-react";
+import { Activity, ArrowRightLeft, Check, ClipboardList, Download, RefreshCw, Swords, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AugmentPicker } from "@/components/augment-picker";
+import { AugmentAdvisor } from "@/components/augment-advisor";
 import { evaluateComps, evaluatePivots } from "@/engine/evaluator";
-import { databaseSchema, evaluationStateSchema, type DecisionLog, type EvaluationState, type MetaDatabase, type OwnedUnit } from "@/types/tft";
+import { databaseSchema, evaluationStateSchema, type AugmentAdvice, type DecisionLog, type EvaluationState, type MetaDatabase, type OwnedUnit } from "@/types/tft";
 import { z } from "zod";
 
 const initial: EvaluationState = { stage: "2-1", hp: 100, gold: 20, level: 4, augmentIds: [], components: {}, inventory: [], currentCompId: null, unexpectedUnitId: null };
@@ -21,6 +23,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [restored, setRestored] = useState(false);
   const [query, setQuery] = useState("");
+  const [session, setSession] = useState(0);
 
   async function loadData(signal?: AbortSignal) {
     setLoading(true); setError("");
@@ -78,11 +81,11 @@ export default function Page() {
   function toggleAugment(id: string) {
     setState(s => ({ ...s, augmentIds: s.augmentIds.includes(id) ? s.augmentIds.filter(x => x !== id) : s.augmentIds.length < 3 ? [...s.augmentIds, id] : s.augmentIds }));
   }
-  function logDecision(compId: string, score: number) {
+  function logDecision(compId: string, score: number, pickedState: EvaluationState = state) {
     if (!db) return;
-    const snapshot = { ...state, currentCompId: compId };
+    const snapshot = { ...pickedState, currentCompId: compId };
     setLogs(old => [{ id: crypto.randomUUID(), at: new Date().toISOString(), revision: db.revision, state: snapshot, compId, score }, ...old].slice(0, 100));
-    patchState({ currentCompId: compId }); setNotice(`已记录 ${state.stage} 阶段决策。`);
+    setState(snapshot); setNotice(`已记录 ${state.stage} 阶段决策。`);
   }
   function exportLogs() {
     const blob = new Blob([JSON.stringify({ patch: db?.patch, logs }, null, 2)], { type: "application/json" });
@@ -97,7 +100,7 @@ export default function Page() {
     {loading && <p role="status" className="panel mb-4">正在加载静态阵容库…</p>}
     {error && <p role="alert" className="panel mb-4 border-red-800 text-red-300">{error}</p>}
     {notice && <p role="status" className="mb-4 text-sm text-cyan-200">{notice}</p>}
-    {db?.demo && <p className="panel mb-5 border-amber-700 text-sm text-amber-200">演示阵容库：单位与攻略为示例，不代表当前国服强度。请配置真实版本目录与来源后启用每日同步。</p>}
+    {db?.demo && <p className="panel mb-5 border-amber-700 text-sm text-amber-200">教学阵容库：棋子与海克斯目录为当前版本资料，阵容攻略为原创教学样例，不代表实盘胜率或国服强度统计。</p>}
     {db && <>
       <section className="panel mb-5 grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-6" aria-label="对局状态">
         <label><span className="label">当前阶段</span><select className="w-full" value={state.stage} onChange={e => patchState({ stage: e.target.value })}>{stages.map(s => <option key={s}>{s}</option>)}</select></label>
@@ -105,9 +108,10 @@ export default function Page() {
         <label><span className="label">当前目标</span><select className="w-full" value={state.currentCompId ?? ""} onChange={e => patchState({ currentCompId: e.target.value || null })}><option value="">未锁定</option>{db.comps.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
         <label><span className="label">意外五费</span><select className="w-full" value={state.unexpectedUnitId ?? ""} onChange={e => patchState({ unexpectedUnitId: e.target.value || null })}><option value="">无</option>{db.units.filter(x => x.cost === 5 && state.inventory.some(u => u.unitId === x.id)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}</select></label>
       </section>
+      <AugmentAdvisor key={`${db.patch}:${db.revision}:${state.stage}:${session}`} db={db} state={state} onCommit={(advice: AugmentAdvice) => logDecision(advice.comp.id, advice.score, advice.hypotheticalState)} />
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(320px,0.9fr)_minmax(400px,1.3fr)_minmax(320px,0.9fr)]">
         <div className="space-y-5">
-          <section className="panel"><h2 className="mb-3 flex items-center gap-2 font-semibold"><Shield size={18} />海克斯 <span className="text-xs text-slate-400">最多 3 个</span></h2><div className="flex flex-wrap gap-2">{db.augments.map(a => <Button key={a.id} variant={state.augmentIds.includes(a.id) ? "default" : "outline"} aria-pressed={state.augmentIds.includes(a.id)} disabled={!state.augmentIds.includes(a.id) && state.augmentIds.length === 3} onClick={() => toggleAugment(a.id)}>{a.name}<span className="text-xs opacity-70">{a.tier === "silver" ? "银" : a.tier === "gold" ? "金" : "彩"}</span></Button>)}</div></section>
+          <section className="panel"><h2 className="mb-3 font-semibold">已选海克斯 · 最多 3 个</h2><div className="mb-3 flex flex-wrap gap-2">{state.augmentIds.map(id => <Button key={id} onClick={() => toggleAugment(id)} aria-label={`移除${db.augments.find(a => a.id === id)?.name}`}>{db.augments.find(a => a.id === id)?.name} ×</Button>)}</div><AugmentPicker augments={db.augments} selected={state.augmentIds} disabledIds={state.augmentIds.length === 3 ? db.augments.filter(a => !state.augmentIds.includes(a.id)).map(a => a.id) : []} onPick={toggleAugment} /></section>
           <section className="panel"><h2 className="mb-3 font-semibold">未合成散件</h2><p className="mb-3 text-xs text-slate-400">只填写装备栏中的散件；已装备成装在单位卡中录入。</p><div className="grid grid-cols-2 gap-2">{db.components.map(c => <div key={c.id} className="rounded-xl bg-slate-800 p-2"><p className="mb-2 text-sm">{c.name}</p><div className="flex items-center justify-between"><Button variant="outline" aria-label={`减少${c.name}`} disabled={!state.components[c.id]} onClick={() => patchState({ components: { ...state.components, [c.id]: Math.max(0, (state.components[c.id] ?? 0) - 1) } })}>−</Button><span className="tabular-nums">{state.components[c.id] ?? 0}</span><Button variant="outline" aria-label={`增加${c.name}`} disabled={(state.components[c.id] ?? 0) >= 99} onClick={() => patchState({ components: { ...state.components, [c.id]: (state.components[c.id] ?? 0) + 1 } })}>+</Button></div></div>)}</div></section>
           <section className="panel"><h2 className="mb-3 flex items-center gap-2 font-semibold"><Swords size={18} />场上 / 板凳</h2><input className="mb-3 w-full" aria-label="搜索单位" placeholder="搜索单位或羁绊" value={query} onChange={e => setQuery(e.target.value)} /><div className="mb-4 flex max-h-48 flex-wrap gap-2 overflow-y-auto">{db.units.filter(u => `${u.name} ${u.traits.join(' ')}`.includes(query)).map(u => <Button key={u.id} variant="outline" disabled={state.inventory.length >= 30} onClick={() => addUnit(u.id)}>{u.name}<span className="text-xs text-amber-300">{u.cost}G</span></Button>)}</div>
             <div className="space-y-3">{state.inventory.map(u => <div key={u.instanceId} className="rounded-xl border border-slate-700 p-3"><div className="mb-2 flex items-center justify-between"><span className="text-sm font-medium">{unitName(u.unitId)}</span><Button variant="outline" aria-label={`移除${unitName(u.unitId)}`} onClick={() => setState(s => ({ ...s, inventory: s.inventory.filter(x => x.instanceId !== u.instanceId), unexpectedUnitId: s.unexpectedUnitId === u.unitId && !s.inventory.some(x => x.instanceId !== u.instanceId && x.unitId === u.unitId) ? null : s.unexpectedUnitId }))}><Trash2 size={14} /></Button></div><div className="mb-2 flex gap-2"><select aria-label={`${unitName(u.unitId)}星级`} value={u.stars} onChange={e => editUnit(u.instanceId, { stars: Number(e.target.value) as OwnedUnit['stars'] })}>{[1,2,3].map(n => <option key={n} value={n}>{n} 星</option>)}</select><select aria-label={`${unitName(u.unitId)}位置`} value={u.location} onChange={e => editUnit(u.instanceId, { location: e.target.value as OwnedUnit['location'] })}><option value="board">场上</option><option value="bench">板凳</option></select></div>
@@ -122,7 +126,7 @@ export default function Page() {
           </article>)}</section>
         <div className="space-y-5">
           <section className="panel"><h2 className="mb-3 flex items-center gap-2 font-semibold"><ArrowRightLeft size={18} />实时转型助手</h2><p className="mb-4 text-xs text-slate-400">血量 ≤ 35 或获得阵外五费时触发。输入状态只影响建议，不自动执行游戏操作。</p>{computed.pivots.length === 0 && <p className="text-sm text-slate-300">暂无紧急转型事件。继续记录阶段、装备与单位。</p>}<div className="space-y-4">{computed.pivots.map(p => <div key={p.compId} className="rounded-xl border border-slate-700 p-3"><h3 className="font-semibold">{db.comps.find(x => x.id === p.compId)?.name}</h3><p className={`my-2 text-sm ${p.available ? 'text-emerald-300' : 'text-amber-300'}`}>{p.available ? '当前条件满足，可按步骤转型' : '准备方案：条件尚未满足'}</p>{p.reasons.map(x => <p className="mb-2 text-xs text-slate-300" key={x}>{x}</p>)}{p.blockers.map(x => <p key={x} className="mb-2 text-xs text-amber-200">• {x}</p>)}<details open={p.available}><summary className="cursor-pointer py-2 text-sm text-cyan-300">{p.available ? '执行步骤' : '条件满足后的执行步骤'}</summary><ol className="list-decimal space-y-2 pl-5 text-xs leading-relaxed text-slate-300">{p.steps.map((x,i) => <li key={i}>{x}</li>)}</ol></details></div>)}</div></section>
-          <section className="panel"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={18} />阶段日志</h2><Button variant="outline" disabled={!logs.length} onClick={exportLogs} aria-label="导出日志"><Download size={16} /></Button></div><p className="mb-3 text-xs text-slate-400">仅存本浏览器，最多 100 条。</p><div className="max-h-[600px] space-y-3 overflow-y-auto">{logs.map(log => <div key={log.id} className="rounded-lg bg-slate-800 p-3 text-sm"><p><strong>{log.state.stage}</strong> · {db.comps.find(c => c.id === log.compId)?.name ?? log.compId}</p><p className="mt-1 text-xs text-slate-400">{log.state.hp} HP / {log.state.gold}G / Lv{log.state.level} · {log.score} 分 · 数据 v{log.revision}</p><time className="text-xs text-slate-500" dateTime={log.at}>{new Date(log.at).toLocaleString('zh-CN')}</time></div>)}</div>{!logs.length && <p className="text-sm text-slate-400">在推荐阵容卡点击「记录此决策」。</p>}<Button className="mt-4 w-full" variant="outline" onClick={() => { setState(initial); setLogs([]); setNotice('已开始新对局。'); }}>开始新对局</Button></section>
+          <section className="panel"><div className="mb-4 flex items-center justify-between"><h2 className="flex items-center gap-2 font-semibold"><ClipboardList size={18} />阶段日志</h2><Button variant="outline" disabled={!logs.length} onClick={exportLogs} aria-label="导出日志"><Download size={16} /></Button></div><p className="mb-3 text-xs text-slate-400">仅存本浏览器，最多 100 条。</p><div className="max-h-[600px] space-y-3 overflow-y-auto">{logs.map(log => <div key={log.id} className="rounded-lg bg-slate-800 p-3 text-sm"><p><strong>{log.state.stage}</strong> · {db.comps.find(c => c.id === log.compId)?.name ?? log.compId}</p><p className="mt-1 text-xs text-slate-400">{log.state.hp} HP / {log.state.gold}G / Lv{log.state.level} · {log.score} 分 · 数据 v{log.revision}</p><p className="my-1 text-xs text-cyan-200">海克斯：{log.state.augmentIds.map(id => db.augments.find(a => a.id === id)?.name ?? id).join(" / ") || "未选"}</p><time className="text-xs text-slate-500" dateTime={log.at}>{new Date(log.at).toLocaleString('zh-CN')}</time></div>)}</div>{!logs.length && <p className="text-sm text-slate-400">在推荐阵容卡点击「记录此决策」。</p>}<Button className="mt-4 w-full" variant="outline" onClick={() => { setSession(v => v + 1); setState(initial); setLogs([]); setNotice('已开始新对局。'); }}>开始新对局</Button></section>
         </div>
       </div>
       <footer className="mt-8 text-xs text-slate-500">更新时间：{new Date(db.updatedAt).toLocaleString('zh-CN')} · 国服人工输入 · 所有评估在本浏览器内完成</footer>

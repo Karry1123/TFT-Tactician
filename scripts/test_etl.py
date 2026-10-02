@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 from types import ModuleType
 import httpx
 from pydantic import ValidationError
-from crawler_and_extractor import Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration, collect_sources, extract, main
+from crawler_and_extractor import MAX_DOCUMENT_TEXT, MAX_PROMPT_CHARS, Catalog, Database, Extraction, Manifest, SourceConfig, atomic_save, stable_payload, load_configuration, collect_sources, extract, main
 
 
 class ETLTests(unittest.TestCase):
@@ -71,9 +71,53 @@ class ETLTests(unittest.TestCase):
         self.assertEqual(len(actual), len(expected))
         self.assertEqual({t.id for t in catalog.augmentTiers}, {"silver", "gold", "prismatic"})
         self.assertEqual({a.tier for a in catalog.augments}, {"silver", "gold", "prismatic"})
-        self.assertLessEqual(len(manifest.sources), 6)
+        self.assertLessEqual(len(manifest.sources), 12)
         self.assertTrue(any(s.purpose in ("guide", "sample") for s in manifest.sources))
         self.assertTrue(any(s.purpose == "sample" for s in manifest.sources))
+
+    def test_comprehensive_catalog_and_published_metadata_match(self):
+        catalog, _ = load_configuration()
+        self.assertEqual(len(catalog.augments), 251)
+        counts = {tier: sum(a.tier == tier for a in catalog.augments) for tier in ("silver", "gold", "prismatic")}
+        self.assertEqual(counts, {"silver": 69, "gold": 115, "prismatic": 67})
+        self.assertEqual({a.category for a in catalog.augments}, {"combat", "economy", "trait", "emblem", "utility"})
+        self.assertEqual([a.model_dump() for a in catalog.augments], self.raw["augments"])
+        self.assertTrue(all(a.apiName and a.keywords for a in catalog.augments))
+        bad = catalog.model_dump()
+        bad["augments"][0]["traitNames"] = ["unknown-trait"]
+        with self.assertRaises(ValidationError):
+            Catalog.model_validate(bad)
+
+    def test_all_original_transcripts_aggregate_and_references_are_not_fetched(self):
+        _, manifest = load_configuration()
+        with httpx.Client() as client:
+            documents, metadata, demo = collect_sources(manifest, client, "2026-10-01T00:00:00Z")
+        self.assertEqual(len(documents), 4)
+        self.assertEqual(len(metadata), 4)
+        self.assertTrue(demo)
+        self.assertLessEqual(sum(len(d["text"]) for d in documents), MAX_DOCUMENT_TEXT)
+        self.assertEqual({d["sourceId"] for d in documents}, {s.id for s in manifest.sources if s.purpose == "sample"})
+
+    def test_aggregate_budget_preserves_all_sources_and_compact_prompt_excludes_metadata(self):
+        catalog, manifest = load_configuration()
+        with httpx.Client() as client, patch("crawler_and_extractor.crawl", return_value="x" * MAX_DOCUMENT_TEXT):
+            with self.assertLogs("crawler_and_extractor", level="WARNING"):
+                documents, _, _ = collect_sources(manifest, client, "2026-10-01T00:00:00Z")
+        self.assertEqual(sum(len(d["text"]) for d in documents), MAX_DOCUMENT_TEXT)
+        self.assertEqual(len(documents), 4)
+        modules, generate = self.fake_genai()
+        generate.return_value.text = json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]})
+        with patch.dict("sys.modules", modules):
+            extract(catalog, documents, "test-placeholder")
+        prompt = generate.call_args.kwargs["contents"][0]["parts"][0]["text"]
+        self.assertLessEqual(len(prompt), MAX_PROMPT_CHARS)
+        supplied = json.loads(prompt.split("\n", 1)[1])
+        self.assertEqual(set(supplied["catalog"]["augments"][0]), {"id", "name", "tier"})
+        generate.reset_mock()
+        with patch.dict("sys.modules", modules):
+            with self.assertRaisesRegex(ValueError, "character budget"):
+                extract(catalog, [{"text": "x" * MAX_PROMPT_CHARS}], "test-placeholder")
+        generate.assert_not_called()
 
     def test_catalog_duplicate_ids_bad_traits_and_recipes_rejected(self):
         catalog, _ = load_configuration()

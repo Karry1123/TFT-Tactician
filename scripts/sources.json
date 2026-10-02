@@ -15,6 +15,51 @@
       "kind": "transcript",
       "path": "scripts/transcripts/sample_guide.txt",
       "purpose": "sample"
+    },
+    {
+      "id": "riot_18_3_patch",
+      "url": "https://teamfighttactics.leagueoflegends.com/en-ph/news/game-updates/teamfight-tactics-patch-18-3/",
+      "title": "Riot 官方 18.3 更新说明（国服 B 热更新以腾讯公告为准）",
+      "kind": "html",
+      "purpose": "reference"
+    },
+    {
+      "id": "nga_community_index",
+      "url": "https://bbs.nga.cn/",
+      "title": "NGA 社区发现入口（待补当前版本原文与授权，不参与提取）",
+      "kind": "html",
+      "purpose": "reference"
+    },
+    {
+      "id": "bilibili_official_set18",
+      "url": "https://www.bilibili.com/video/BV1uHhg6oEMo/",
+      "title": "Bilibili 官方赛季介绍参考（非当前版本攻略，不参与提取）",
+      "kind": "html",
+      "purpose": "reference"
+    },
+    {
+      "id": "reroll_guide",
+      "url": "repo://scripts/transcripts/reroll_guide.txt",
+      "title": "原创低费慢搜与止损教学",
+      "kind": "transcript",
+      "path": "scripts/transcripts/reroll_guide.txt",
+      "purpose": "sample"
+    },
+    {
+      "id": "ap_guide",
+      "url": "repo://scripts/transcripts/ap_guide.txt",
+      "title": "原创法系八级运营教学",
+      "kind": "transcript",
+      "path": "scripts/transcripts/ap_guide.txt",
+      "purpose": "sample"
+    },
+    {
+      "id": "ad_fast9_guide",
+      "url": "repo://scripts/transcripts/ad_fast9_guide.txt",
+      "title": "原创物理灵活过渡与九级上限教学",
+      "kind": "transcript",
+      "path": "scripts/transcripts/ad_fast9_guide.txt",
+      "purpose": "sample"
     }
   ]
 }

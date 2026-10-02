@@ -2,15 +2,15 @@
 
 [English](#architecture) | [中文版](#中文版)
 
-Current catalog setup / 当前国服资料配置：见 [版本说明](docs/current-patch-notes.md)。`scripts/catalog.json` 已更新至国服18.3 B；前端发布数据库仍为演示，成功实盘提取后才更新。
+Current catalog setup / 当前国服资料配置：见 [版本说明](docs/current-patch-notes.md)。`scripts/catalog.json` 已更新至国服18.3 B；前端已同步完整海克斯目录，原创教学阵容保持演示标记。
 
 A static China-region TFT cockpit. Next.js App Router, TypeScript, Tailwind,
 Lucide, and a local shadcn/ui Button. There is no hosted backend, runtime LLM,
 database service, subscription, telemetry dependency, or authentication service.
 
-The published `public/data/meta_comps.json` uses illustrative `DEMO-ONLY` units. It is a working fixture,
-**not a current China patch recommendation**. Replace it before using recommendations
-in actual matches. Mainland connectivity to the chosen static host must be checked
+The published `public/data/meta_comps.json` contains the current CN catalog and
+original teaching comps marked `demo=true`, **not verified live performance statistics**.
+Review authorized current-patch guides before relying on recommendations in matches. Mainland connectivity to the chosen static host must be checked
 from your own network; this project does not promise access or game integration.
 
 ## Architecture
@@ -70,7 +70,7 @@ failures preserve the database and re-raise the final exception.
 2. Maintain `scripts/catalog.json` as a verified current CN catalog of components,
    item recipes, units, traits, and augment tiers. Set `patch` to the real patch
    label and `demo` to `false`. IDs must be stable, lowercase, and unique.
-3. Set the same patch label in `scripts/sources.json`. Choose up to six reliable,
+3. Set the same patch label in `scripts/sources.json`. Configure up to twelve entries containing references and reliable,
    current-patch guides. Source selection determines what “top guides” means;
    automatic ranking/discovery is an adapter left for the operator.
 4. Configure source entries such as these (replace the example URLs):
@@ -186,8 +186,8 @@ TFT-Tactician 是面向国服《云顶之弈》的静态战术台，使用 Next.
 TypeScript、Tailwind CSS、Lucide 图标和本地 shadcn/ui 按钮组件。
 阵容评分和转型建议全部在浏览器中计算，无需托管后端、数据库服务或运行时大模型调用。
 
-内置的 `DEMO-ONLY` 数据使用示例单位，**不代表当前国服版本的真实阵容或强度**。
-可以用它体验操作、推荐和阶段日志；实际对局使用前，请替换成经过核实的国服版本数据。
+内置数据库包含当前国服棋子与海克斯目录，以及标记 `demo=true` 的原创教学阵容。
+**教学评分不代表当前国服实盘胜率或强度统计**；实战使用前请核实攻略依据。
 国内网络能否访问所选静态托管平台，需要自行验证。本项目不读取或控制游戏客户端。
 
 ### 本地快速运行
@@ -276,7 +276,7 @@ GitHub Actions 可设置同名仓库变量；未设置、空值或纯空白均�
 2. 更新 `scripts/catalog.json`，填写当前国服版本的散件、成装配方、单位、羁绊和海克斯档位。
    将 `patch` 改为真实版本标签，设置 `demo: false`。ID 必须稳定、唯一，
    以小写字母或数字开头，只包含小写字母、数字、下划线或连字符。
-3. 在 `scripts/sources.json` 中设置相同的 `patch`，并配置最多六个可靠的同版本攻略来源。
+3. 在 `scripts/sources.json` 中设置相同的 `patch`，并配置最多十二个参考或可靠的同版本攻略来源。
    当前需要人工选择攻略；自动发现和排序热门攻略属于后续可扩展的适配器。
 4. 按下面格式填写来源，替换所有示例地址：
 
@@ -387,3 +387,54 @@ Pydantic 会拒绝未知或重复的 ID、
 - [Next.js 静态导出](https://nextjs.org/docs/app/guides/static-exports)
 - [Cloudflare Pages 限制](https://developers.cloudflare.com/pages/platform/limits/)
 - [Vercel Hobby 个人用途限制](https://vercel.com/docs/plans/hobby)
+
+
+## Augment advisor and expanded sources / 海克斯助手与攻略输入
+
+At 2-1, 3-2 or 4-2, populate three distinct offers in the dedicated panel.
+Each counterfactual retains existing picks, components and board state. Choose a
+candidate to record its augment and recommended comp together in the stage log.
+Search by Chinese name, description or keywords; All/Silver/Gold/Prismatic filters
+apply to both the owned catalog and offered choices. Stage availability, when
+known, is checked against the imported roster.
+
+保留建议只针对最佳路线已有明确适配记录的选项；比首选低至少6分、两者都有明确记录且
+还有刷新次数时显示「建议刷新」。其他选项为次选；未知适配标为待核对，按中性分处理。
+已有海克斯会参与评分，不重复计入。最高档路线只在距离最佳适配不超过5分、散件缺口
+不比最佳路线多15个百分点的阵容中选择；它不保证当前即可转型，执行条件仍看转型面板。
+缺失海克斯机制不会由目录描述自动推算成战斗收益。选择并记录后，下方实时推荐、二星
+节点、装备队列与日志一并更新。「开始新对局」也会清空三选一候选。
+
+The reviewed 18.3 B roster has 251 active entries: 69 silver, 115 gold, 67 prismatic.
+Source snapshot, game-data checksum, exclusions and ID policy are in
+[`scripts/catalog_provenance.json`](scripts/catalog_provenance.json).
+`description`, `keywords`, `stages`, `traitNames`, `category`, `apiName` are optional
+backward-compatible metadata; search categories are descriptive, not performance ratings.
+[`scripts/import_augment_catalog.py`](scripts/import_augment_catalog.py) imports a reviewed
+JSON snapshot with optional version-pinned CommunityDragon trait data; it is a manual
+maintenance utility, not an unreviewed daily roster scraper.
+
+当前名单包括战斗、经济、羁绊专属与纹章授予机制。当前快照没有旧赛季按每个羁绊
+列出的「之徽 / 之冕」完整家族，因此没有补入已不在池中的旧海克斯。禁用项已排除；
+后续版本须重新核对目录。全面名单指核对日期的公开当前池快照，不保证之后不变。
+
+`scripts/sources.json` has eight entries: four references and four original teaching
+texts (general/Fast 8/9, reroll, AP, AD flex). Tencent's CN B-hotfix and Riot's base-patch
+notes are patch references. NGA is a discovery entry; the Bilibili official video is a
+season reference. References are not crawled or extracted as strategy guides.
+There are no creator-authorized external guides configured yet.
+
+按本次授权，先使用官方参考配置和原创教学文本。没有冒充 NGA / Bilibili 作者授权，也
+没有把赛季介绍当作当前版本攻略。接入掌盟、NGA 或 Bilibili 作者真实攻略时，保留原文
+HTTPS 链接、获得文字使用授权，在 `scripts/transcripts/` 保存 UTF-8 文本，设置
+`kind=transcript`、`purpose=guide`。登录或动态接口优先使用有权使用的文本；无需付费 ASR。
+所有 sample 都参与提取，含任一 sample 的发布结果保持 `demo=true`；要发布真实攻略，
+应移除 sample 输入并审核真实来源，而不是手动去掉演示标记。
+
+Aggregation reserves an equal text budget for every ingestible source, totaling
+at most 30,000 characters; each source is also limited to 12,000 characters.
+Only augment ID/name/tier metadata is sent to Gemini. The complete prompt is
+capped at 90,000 characters and output at 16,000 tokens; oversized input fails
+before requesting the API. Character limits are conservative input bounds,
+not an exact tokenizer count. The strict output schema and catalog-reference
+validation remain local. Four original teaching texts comfortably fit this budget.

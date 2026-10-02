@@ -6,7 +6,14 @@ const ids = z.array(id).max(32);
 export const componentSchema = z.object({ id, name: z.string().min(1).max(80) }).strict();
 export const itemSchema = z.object({ id, name: z.string().min(1).max(80), components: z.array(id).length(2) }).strict();
 export const unitSchema = z.object({ id, name: z.string().min(1).max(80), cost: z.number().int().min(1).max(5), traits: z.array(z.string()).max(8), boardSlots: z.union([z.literal(1), z.literal(2)]).default(1) }).strict();
-export const augmentSchema = z.object({ id, name: z.string().min(1).max(80), tier: z.enum(["silver", "gold", "prismatic"]) }).strict();
+export const augmentSchema = z.object({
+  id, name: z.string().min(1).max(80), tier: z.enum(["silver", "gold", "prismatic"]),
+  description: z.string().max(1200).default(""), keywords: z.array(z.string().min(1).max(80)).max(16).default([]),
+  stages: z.array(z.enum(["2-1", "3-2", "4-2"])).max(3).default([]),
+  traitNames: z.array(z.string().min(1).max(80)).max(8).default([]),
+  category: z.enum(["combat", "economy", "trait", "emblem", "utility"]).default("utility"),
+  apiName: z.string().max(100).nullable().default(null),
+}).strict();
 export const compSchema = z.object({
   id, name: z.string().min(1).max(80), tier: z.enum(["S", "A", "B"]),
   units: ids.min(1), carryId: id,
@@ -34,6 +41,10 @@ export const databaseSchema = z.object({
     if (refs.some(x => !list.some(y => y.id === x))) ctx.addIssue({ code: "custom", message: `Unknown ${label} reference` });
   };
   db.items.forEach(x => check(x.components, db.components, "component"));
+  db.augments.forEach(a => {
+    if (new Set(a.stages).size !== a.stages.length || new Set(a.traitNames).size !== a.traitNames.length || a.traitNames.some(t => !db.traits.some(x => x.name === t)))
+      ctx.addIssue({ code: "custom", message: "Invalid augment stages or trait references" });
+  });
   if (!db.demo) {
     if (db.augmentTiers.length !== 3 || ["silver", "gold", "prismatic"].some(tier => !db.augmentTiers.some(x => x.id === tier)))
       ctx.addIssue({ code: "custom", message: "Live catalog requires all augment tiers" });
@@ -56,6 +67,14 @@ export const databaseSchema = z.object({
 export type MetaDatabase = z.infer<typeof databaseSchema>;
 export type Comp = z.infer<typeof compSchema>;
 export type Augment = z.infer<typeof augmentSchema>;
+export type AugmentTier = Augment["tier"];
+export interface AugmentOffer { augmentId: string; canReroll: boolean }
+export interface AugmentAdvice {
+  augment: Augment; comp: Comp; score: number; delta: number;
+  highestTierComp: Comp; highestTierScore: number;
+  action: "keep" | "reroll" | "alternative"; confidence: "supported" | "unknown";
+  reasons: string[]; hypotheticalState: EvaluationState;
+}
 export type Item = z.infer<typeof itemSchema>;
 export type Unit = z.infer<typeof unitSchema>;
 export const evaluationStateSchema = z.object({

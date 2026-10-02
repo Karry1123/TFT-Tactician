@@ -1,4 +1,50 @@
-import { evaluationStateSchema, type Comp, type Evaluation, type EvaluationState, type ItemPriority, type MetaDatabase, type OwnedUnit, type PivotPlan } from "../types/tft";
+import { evaluationStateSchema, type Augment, type AugmentAdvice, type AugmentOffer, type AugmentTier, type Comp, type Evaluation, type EvaluationState, type ItemPriority, type MetaDatabase, type OwnedUnit, type PivotPlan } from "../types/tft";
+
+export function filterAugments(augments: Augment[], tier: AugmentTier | "all", query: string): Augment[] {
+  const terms = query.normalize("NFKC").trim().toLowerCase().split(/\s+/).filter(Boolean);
+  return augments.filter(a => (tier === "all" || a.tier === tier) && terms.every(term =>
+    `${a.name} ${a.id} ${a.description} ${a.keywords.join(" ")} ${a.traitNames.join(" ")}`.normalize("NFKC").toLowerCase().includes(term)));
+}
+
+/** Counterfactual picks; unknown compatibility stays neutral, never invents reroll odds. */
+export function evaluateAugmentChoices(db: MetaDatabase, state: EvaluationState, offers: AugmentOffer[]): AugmentAdvice[] {
+  assertState(db, state);
+  const capacity: Record<string, number> = { "2-1": 1, "3-2": 2, "4-2": 3 };
+  if (!capacity[state.stage] || state.augmentIds.length >= capacity[state.stage]) throw new Error("Not an open augment selection stage");
+  if (offers.length !== 3 || new Set(offers.map(o => o.augmentId)).size !== 3) throw new Error("Provide three distinct augment offers");
+  if (!db.comps.length) throw new Error("No comps available");
+  const baseline = evaluateComps(db, state)[0].score;
+  const tierRank = { S: 0, A: 1, B: 2 };
+  const choices = offers.map(offer => {
+    const augment = db.augments.find(a => a.id === offer.augmentId);
+    if (!augment || state.augmentIds.includes(augment.id)) throw new Error("Unknown or already selected augment offer");
+    if (augment.stages.length && !augment.stages.includes(state.stage as "2-1" | "3-2" | "4-2")) throw new Error("Augment unavailable at this stage");
+    const hypotheticalState = { ...state, augmentIds: [...state.augmentIds, augment.id] };
+    const rankings = evaluateComps(db, hypotheticalState);
+    const best = rankings[0];
+    // A higher tier is only considered within five fit points of the best supported route.
+    const highest = rankings.filter(r => r.score >= best.score - 5 && r.breakdown.itemDeficit <= best.breakdown.itemDeficit + 0.15)
+      .sort((a, b) => tierRank[a.comp.tier] - tierRank[b.comp.tier] || b.score - a.score || a.comp.id.localeCompare(b.comp.id))[0];
+    const known = best.comp.augmentCompatibility.some(a => a.augmentId === augment.id);
+    const reasons = [`最佳适配：${best.comp.name}（${best.comp.tier} 档），散件缺口 ${Math.round(best.breakdown.itemDeficit * 100)}%，转场距离 ${best.breakdown.transitionDistance.toFixed(2)}。`];
+    if (!known) reasons.push("该攻略未记录此海克斯适配，按中性分处理；请核对游戏内效果，不能据此断言刷新更赚。");
+    if (state.hp <= 35 && augment.category === "economy") reasons.push("血量较低：经济收益不能代替即时战力，先确认当前阵容能稳血。");
+    return { augment, comp: best.comp, score: best.score, delta: Math.round((best.score - baseline) * 10) / 10,
+      highestTierComp: highest.comp, highestTierScore: highest.score, action: "alternative" as AugmentAdvice["action"],
+      confidence: known ? "supported" as const : "unknown" as const, reasons, hypotheticalState, canReroll: offer.canReroll };
+  }).sort((a, b) => b.score - a.score || Number(b.confidence === "supported") - Number(a.confidence === "supported") || a.augment.id.localeCompare(b.augment.id));
+  const best = choices[0];
+  return choices.map((choice, index) => {
+    const gap = best.score - choice.score;
+    const action: AugmentAdvice["action"] = index === 0 && choice.confidence === "supported" ? "keep"
+      : choice.canReroll && choice.confidence === "supported" && best.confidence === "supported" && gap >= 6 ? "reroll" : "alternative";
+    choice.reasons.push(action === "reroll" ? `比首选低 ${gap.toFixed(1)} 分，有刷新次数时可刷新；刷新结果未知。`
+      : index === 0 ? "三项中的当前最高适配分；锁定前检查二星节点与装备队列。" : `距当前首选 ${gap.toFixed(1)} 分。`);
+    if (!choice.canReroll) choice.reasons.push("此选项没有刷新次数，保留作为可选方案。");
+    const { canReroll: _unused, ...advice } = choice;
+    return { ...advice, action };
+  });
+}
 
 export function stageValue(stage: string): number {
   if (!/^[2-7]-[1-7]$/.test(stage)) throw new Error("Invalid stage");

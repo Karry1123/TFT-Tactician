@@ -2,13 +2,74 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import fixture from "./fixtures/meta_comps.json";
 import liveCatalog from "../scripts/catalog.json";
+import published from "../public/data/meta_comps.json";
 import { databaseSchema, type EvaluationState, type OwnedUnit } from "../src/types/tft";
-import { evaluateComps, evaluatePivots } from "../src/engine/evaluator";
+import { evaluateAugmentChoices, evaluateComps, evaluatePivots, filterAugments } from "../src/engine/evaluator";
 
 const db = databaseSchema.parse(fixture);
 const base: EvaluationState = { stage: "2-1", hp: 100, level: 8, gold: 40, augmentIds: [], components: {}, inventory: [], currentCompId: "ranger-line", unexpectedUnitId: null };
 const owned = (unitId: string, patch: Partial<OwnedUnit> = {}): OwnedUnit => ({ instanceId: unitId, unitId, stars: 2, location: "board", itemIds: [], ...patch });
 const find = (state: EvaluationState, compId = "ranger-line") => evaluateComps(db, state).find(x => x.comp.id === compId)!;
+
+const offers = ["attack", "mana", "legend"].map(augmentId => ({ augmentId, canReroll: true }));
+test("deployed JSON loads through the browser schema with the complete live augment catalog", () => {
+  const data = databaseSchema.parse(published);
+  assert.equal(data.patch, liveCatalog.patch);
+  assert.equal(data.augments.length, 251);
+  assert.deepEqual(data.augments, liveCatalog.augments);
+  assert.ok(evaluateComps(data, { ...base, currentCompId: null }).length);
+});
+test("three counterfactual picks use components and board, validate, and leave inputs unchanged", () => {
+  const state = { ...base, components: { bow: 2, rod: 1, sword: 1, glove: 2, belt: 2 }, inventory: [owned("scout"), owned("guard")] };
+  const before = JSON.stringify({ db, state, offers });
+  const advice = evaluateAugmentChoices(db, state, offers);
+  assert.equal(advice.length, 3);
+  assert.equal(advice[0].augment.id, "attack");
+  assert.equal(advice[0].comp.id, "ranger-line");
+  assert.equal(advice[0].action, "keep");
+  assert.ok(advice.some(a => a.action === "reroll"));
+  for (const a of advice) {
+    assert.deepEqual(a.hypotheticalState.augmentIds, [a.augment.id]);
+    assert.equal(a.score, evaluateComps(db, a.hypotheticalState)[0].score);
+    assert.ok(a.highestTierScore >= a.score - 5);
+  }
+  assert.equal(JSON.stringify({ db, state, offers }), before);
+  assert.deepEqual(advice, evaluateAugmentChoices(db, state, offers));
+  const apState = { ...base, stage: "3-2", components: { sword: 1, tear: 2, rod: 2, glove: 1, belt: 2 }, inventory: [owned("sage"), owned("warden"), owned("guard")] };
+  const apAdvice = evaluateAugmentChoices(db, apState, offers);
+  assert.equal(apAdvice[0].comp.id, "sage-line");
+  assert.equal(apAdvice[0].augment.id, "mana");
+  const noRerolls = evaluateAugmentChoices(db, state, offers.map(o => ({ ...o, canReroll: false })));
+  assert.ok(noRerolls.every(a => a.action !== "reroll"));
+});
+test("offers reject invalid stages, duplicates, owned IDs and unavailable stages", () => {
+  assert.throws(() => evaluateAugmentChoices(db, { ...base, stage: "4-1" }, offers));
+  assert.throws(() => evaluateAugmentChoices(db, base, offers.slice(0, 2)));
+  assert.throws(() => evaluateAugmentChoices(db, base, [offers[0], offers[0], offers[2]]));
+  assert.throws(() => evaluateAugmentChoices(db, { ...base, augmentIds: ["attack"] }, offers));
+  assert.throws(() => evaluateAugmentChoices(db, base, [...offers.slice(0, 2), { augmentId: "unknown", canReroll: true }]));
+  const copy = structuredClone(db);
+  copy.augments[0].stages = ["3-2"];
+  assert.throws(() => evaluateAugmentChoices(copy, base, offers));
+});
+test("existing picks are retained, and unknown augment compatibility does not justify reroll", () => {
+  const copy = structuredClone(db);
+  copy.augments.push({ ...copy.augments[0], id: "unknown-fit", name: "未知适配", stages: [] });
+  const state = { ...base, stage: "3-2", augmentIds: ["legend"] };
+  const advice = evaluateAugmentChoices(copy, state, [offers[0], offers[1], { augmentId: "unknown-fit", canReroll: true }]);
+  for (const a of advice) assert.deepEqual(a.hypotheticalState.augmentIds, ["legend", a.augment.id]);
+  const unknown = advice.find(a => a.augment.id === "unknown-fit")!;
+  assert.equal(unknown.confidence, "unknown");
+  assert.equal(unknown.action, "alternative");
+});
+test("catalog search supports Chinese keywords, tier filters, case and normalized spaces", () => {
+  const copy = structuredClone(db.augments);
+  copy[0].name = "精准经济"; copy[0].keywords = ["经济", "Fast 8"];
+  assert.deepEqual(filterAugments(copy, "gold", "  经济 FAST  ").map(a => a.id), ["attack"]);
+  assert.equal(filterAugments(copy, "silver", "经济").length, 0);
+  assert.equal(filterAugments(copy, "all", "").length, copy.length);
+  assert.equal(filterAugments(copy, "all", "不存在").length, 0);
+});
 
 test("component deficit uses counts, consumes shared components once, and preserves input", () => {
   const state = { ...base, components: { bow: 1, rod: 1, sword: 1, glove: 1, belt: 1 } };
