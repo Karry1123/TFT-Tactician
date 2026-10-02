@@ -101,7 +101,12 @@ local fallback. Any refresh containing sample content is marked `demo=true`.
 `purpose=reference` entries are never ingested. The four blocked Mobalytics guide
 URLs have been removed from the active manifest.
 
-Gemini receives the explicit JSON schema and canonical catalog. Pydantic rejects
+Gemini receives the full JSON schema in the prompt alongside the canonical catalog.
+The API request uses JSON mode (`response_mime_type=application/json`) and explicit
+user/text content; it sends neither `response_schema` nor `response_json_schema`.
+Strict schema enforcement happens locally after generation. On API failure, logs
+include supplied payload/config keys and safe config values, without the API key
+or prompt text. Pydantic rejects
 unknown IDs, duplicate IDs, wrong types, extra fields, invalid recipes, mismatched
 patch labels, invalid holders and missing provenance. Schema validity cannot prove
 that extracted advice is true: review your sources and the bot's data diff.
@@ -305,7 +310,11 @@ Bilibili 等视频来源应使用已获授权的文字稿，保存为 `scripts/t
 四个被反爬拦截的 Mobalytics 攻略链接已从实际来源配置移除。
 系统不依赖付费语音转写服务，也不会执行攻略文本中的指令。
 
-Gemini 接收明确的 JSON Schema 和标准目录。Pydantic 会拒绝未知或重复的 ID、
+完整 JSON Schema 和标准目录放在 Gemini 提示词中；API 请求仅设置 JSON 模式
+（`response_mime_type=application/json`），使用明确的 user/text 内容格式，
+不发送 `response_schema` 或 `response_json_schema`。生成后继续执行本地严格校验。
+API 失败时记录请求/配置字段及配置值，不记录 API Key 或提示词正文。
+Pydantic 会拒绝未知或重复的 ID、
 错误类型、额外字段、无效配方、版本不匹配、无效装备持有者和缺失的来源引用。
 结构校验不能证明攻略内容真实，仍需检查来源与机器人的数据提交差异。
 

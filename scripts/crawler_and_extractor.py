@@ -338,22 +338,42 @@ def extract(catalog: Catalog, documents: list[dict], key: str) -> Extraction:
         "Documents with purpose=sample are authorized educational examples: extract "
         "their explicit guidance for a DEMO database, without treating it as verified live statistics. "
         "If there is no reliable guidance "
-        "for this patch, return no comps (validation will reject the refresh).\n"
-        + json.dumps({"catalog": catalog.model_dump(), "documents": documents}, ensure_ascii=False)
+        "for this patch, return no comps (validation will reject the refresh). "
+        "Return only one JSON object matching the output_schema below, with no "
+        "Markdown fences or additional prose. output_schema is a local validation "
+        "contract; resolve its $defs/$ref definitions when constructing the JSON.\n"
+        + json.dumps({"output_schema": Extraction.model_json_schema(),
+                      "catalog": catalog.model_dump(), "documents": documents}, ensure_ascii=False)
     )
+    config_values = {
+        "max_output_tokens": 16000,
+        "response_mime_type": "application/json",
+    }
+    # JSON mode avoids sending the full Pydantic schema through the API's schema
+    # subset. The complete strict contract is still enforced on the response below.
+    payload = {
+        "model": model_name,
+        "contents": [types.Content(role="user", parts=[types.Part.from_text(text=prompt)])],
+        "config": types.GenerateContentConfig(**config_values),
+    }
     # Exactly one non-grounded Flash request. Never enable Cloud billing on this key's project.
     with genai.Client(api_key=key, http_options=types.HttpOptions(
         timeout=90_000, retry_options=types.HttpRetryOptions(attempts=1)
     )) as client:
-        response = client.models.generate_content(
-            model=model_name, contents=prompt,
-            config=types.GenerateContentConfig(
-                temperature=0, max_output_tokens=16000,
-                # Use model-native thinking defaults; do not force legacy thinking_budget=0.
-                response_mime_type="application/json",
-                response_json_schema=Extraction.model_json_schema(),
-            ),
-        )
+        try:
+            response = client.models.generate_content(**payload)
+        except Exception as err:
+            # Report exact supplied keys and safe config values, never the API key,
+            # guide text, prompt contents, or potentially sensitive exception body.
+            logger.error(
+                "Gemini generate_content failed: model=%s; payload_keys=%s; "
+                "contents_format=list[Content(role=user, parts=[Part(text)])]; "
+                "prompt_chars=%d; config_keys=%s; config=%s; error_type=%s; error_code=%s",
+                model_name, json.dumps(sorted(payload)), len(prompt),
+                json.dumps(sorted(config_values)), json.dumps(config_values, sort_keys=True),
+                type(err).__name__, getattr(err, "code", None),
+            )
+            raise
     if not response.text:
         raise ValueError("Empty model response")
     return Extraction.model_validate_json(response.text)

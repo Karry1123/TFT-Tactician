@@ -16,6 +16,20 @@ class ETLTests(unittest.TestCase):
     def setUp(self):
         self.raw = json.loads((Path(__file__).resolve().parents[1] / "public/data/meta_comps.json").read_text(encoding="utf-8"))
 
+    def fake_genai(self):
+        google = ModuleType("google")
+        sdk = ModuleType("google.genai")
+        sdk_types = ModuleType("google.genai.types")
+        google.genai = sdk
+        sdk.types = sdk_types
+        sdk.Client = MagicMock()
+        for name in ("HttpOptions", "HttpRetryOptions", "GenerateContentConfig", "Content"):
+            setattr(sdk_types, name, lambda **kwargs: kwargs)
+        sdk_types.Part = MagicMock()
+        sdk_types.Part.from_text.side_effect = lambda **kwargs: kwargs
+        generate = sdk.Client.return_value.__enter__.return_value.models.generate_content
+        return {"google": google, "google.genai": sdk, "google.genai.types": sdk_types}, generate
+
     def test_shared_contract_and_atomic_write(self):
         db = Database.model_validate(self.raw)
         with tempfile.TemporaryDirectory() as folder:
@@ -166,21 +180,11 @@ class ETLTests(unittest.TestCase):
     def test_extraction_uses_default_or_environment_model_in_sdk_request(self):
         # Exercise the actual request construction without installing/calling an API.
         catalog, _ = load_configuration()
-        google = ModuleType("google")
-        sdk = ModuleType("google.genai")
-        sdk_types = ModuleType("google.genai.types")
-        google.genai = sdk
-        sdk.types = sdk_types
-        sdk.Client = MagicMock()
-        for name in ("HttpOptions", "HttpRetryOptions", "GenerateContentConfig"):
-            setattr(sdk_types, name, lambda **kwargs: kwargs)
-        generate = sdk.Client.return_value.__enter__.return_value.models.generate_content
+        modules, generate = self.fake_genai()
         generate.return_value.text = json.dumps({"patch": catalog.patch, "comps": self.raw["comps"]})
         for value, expected in ((None, "gemini-3.8-flash"), ("", "gemini-3.8-flash"),
                                 ("   ", "gemini-3.8-flash"), ("custom-model", "custom-model")):
-            with self.subTest(model=value), patch.dict("sys.modules", {
-                "google": google, "google.genai": sdk, "google.genai.types": sdk_types,
-            }), patch.dict("os.environ", {}, clear=True):
+            with self.subTest(model=value), patch.dict("sys.modules", modules), patch.dict("os.environ", {}, clear=True):
                 if value is not None:
                     with patch.dict("os.environ", {"GEMINI_MODEL": value}):
                         extract(catalog, [], "test-placeholder")
@@ -188,9 +192,46 @@ class ETLTests(unittest.TestCase):
                     extract(catalog, [], "test-placeholder")
                 self.assertEqual(generate.call_args.kwargs["model"], expected)
                 self.assertNotIn("thinking_config", generate.call_args.kwargs["config"])
-                self.assertEqual(generate.call_args.kwargs["config"]["response_json_schema"], Extraction.model_json_schema())
+                self.assertEqual(generate.call_args.kwargs["config"], {
+                    "max_output_tokens": 16000, "response_mime_type": "application/json",
+                })
+                contents = generate.call_args.kwargs["contents"]
+                self.assertEqual(len(contents), 1)
+                self.assertEqual(contents[0]["role"], "user")
+                text = contents[0]["parts"][0]["text"]
+                supplied = json.loads(text.split("\n", 1)[1])
+                self.assertEqual(supplied["output_schema"], Extraction.model_json_schema())
                 generate.assert_called_once()
                 generate.reset_mock()
+
+    def test_api_error_logs_request_keys_without_secrets_and_reraises(self):
+        catalog, _ = load_configuration()
+        modules, generate = self.fake_genai()
+        error = type("FakeAPIError", (Exception,), {"code": 400})("private-error-body")
+        generate.side_effect = error
+        with patch.dict("sys.modules", modules), self.assertLogs("crawler_and_extractor", level="ERROR") as logs:
+            with self.assertRaises(type(error)) as raised:
+                extract(catalog, [{"text": "private-guide-text"}], "private-api-key")
+        self.assertIs(raised.exception, error)
+        message = " ".join(logs.output)
+        self.assertIn('payload_keys=["config", "contents", "model"]', message)
+        self.assertIn('config_keys=["max_output_tokens", "response_mime_type"]', message)
+        self.assertIn('"response_mime_type": "application/json"', message)
+        self.assertIn("error_code=400", message)
+        for private in ("private-guide-text", "private-api-key", "private-error-body"):
+            self.assertNotIn(private, message)
+        generate.assert_called_once()
+
+    def test_json_mode_output_still_requires_strict_pydantic_validation(self):
+        catalog, _ = load_configuration()
+        modules, generate = self.fake_genai()
+        invalid = ["not JSON", json.dumps({"patch": catalog.patch, "comps": []}),
+                   json.dumps({"patch": catalog.patch, "comps": self.raw["comps"], "extra": True})]
+        for response in invalid:
+            with self.subTest(response=response), patch.dict("sys.modules", modules):
+                generate.return_value.text = response
+                with self.assertRaises(ValidationError):
+                    extract(catalog, [], "test-placeholder")
 
 
 if __name__ == "__main__":
