@@ -1,0 +1,30 @@
+{
+  "verifiedDate": "2026-10-01",
+  "patch": "18.3 B",
+  "displayPatch": "18.3 B",
+  "set": 18,
+  "region": "CN",
+  "officialAnnouncement": "https://lol.qq.com/news/detail.shtml?docid=11325082533985858669",
+  "readableAnnouncementMirror": "https://leaguenews.me/messages/10059",
+  "rosterReference": "https://op.gg/zh-cn/tft/meta-trends/champion?version=18.3",
+  "itemReference": "https://op.gg/zh-cn/tft/meta-trends/item?version=18.3",
+  "traitsReference": "https://op.gg/zh-cn/tft/set/18",
+  "augmentNameReference": "https://op.gg/zh-cn/tft/meta-trends/augments?version=18.3",
+  "augmentTierReferences": [
+    "https://mobalytics.gg/tft/augments",
+    "https://mobalytics.gg/tft/augments?tier=2",
+    "https://mobalytics.gg/tft/augments?tier=3"
+  ],
+  "guideIndex": "https://mobalytics.gg/tft/team-comps",
+  "notes": [
+    "Patch label denotes the September 28 China B hotfix, not the League of Legends patch or the separate mobile game.",
+    "65 base unit records plus 9 explicitly identified Lux origin variants; generic Lux is a catalog identity, not a tenth origin. Lux variants are mutually exclusive.",
+    "Ten component identities; all 36 recipes formed by pairs of the eight ordinary components. Emblems, artifacts and radiant items are outside this recipe catalog.",
+    "36 trait identities; unit.traits uses Chinese names, matched against this registry. Elementalist is normalized to its trait name 大元素使.",
+    "Augments are a curated subset of 24, not a claim to list every live augment. Three tier definitions are complete.",
+    "Excluded temporarily disabled CN augments: 挑战者的优雅, 黑暗仪式, 三相庇护, 弈子套娃.",
+    "The four international guide pages are listed under base patch 18.3, not China-specific 18.3 B statistics. Review hotfix-sensitive advice before publishing; rankings can drift.",
+    "Reference and original sample entries are excluded from live extraction. No remote crawler or Gemini invocation was performed in local verification.",
+    "Published demo database remains unchanged until a valid live extraction succeeds."
+  ]
+}

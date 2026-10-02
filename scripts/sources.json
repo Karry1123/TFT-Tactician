@@ -1,0 +1,48 @@
+{
+  "patch": "18.3 B",
+  "sources": [
+    {
+      "id": "cn_18_3b_patch",
+      "url": "https://lol.qq.com/news/detail.shtml?docid=11325082533985858669",
+      "title": "国服云顶之弈9月28日不停机更新公告（18.3 B）",
+      "kind": "html",
+      "purpose": "reference"
+    },
+    {
+      "id": "ashe_fast9",
+      "url": "https://mobalytics.gg/tft/comps-guide/ashe-to-ashes-3J9V7i6GFrOujQPGxcWbr4cqwKC",
+      "title": "Ashe to Ashes · Fast 9 · Set 18 / 18.3",
+      "kind": "html",
+      "purpose": "guide"
+    },
+    {
+      "id": "moonlit_fast8",
+      "url": "https://mobalytics.gg/tft/comps-guide/moonlit-hunt-3JBJHbLQQVkdfm6vFl6EPiJcEKw",
+      "title": "Moonlit Hunt · Fast 8 · Set 18 / 18.3",
+      "kind": "html",
+      "purpose": "guide"
+    },
+    {
+      "id": "veigar_reroll",
+      "url": "https://mobalytics.gg/tft/comps-guide/veigar-reroll-3GRav9EJC9f18s1Fsh4A1709SmK",
+      "title": "Kill Stack Repeat · Veigar reroll · Set 18 / 18.3",
+      "kind": "html",
+      "purpose": "guide"
+    },
+    {
+      "id": "ahri_fast8",
+      "url": "https://mobalytics.gg/tft/comps-guide/bloom-and-doom-3IYZrgrxpycIWCeI7z4uJ44MTMA",
+      "title": "Bloom and Doom · Fast 8 · Set 18 / 18.3",
+      "kind": "html",
+      "purpose": "guide"
+    },
+    {
+      "id": "sample_guide",
+      "url": "repo://scripts/transcripts/sample_guide.txt",
+      "title": "原创中文教学攻略样例（非实盘统计来源）",
+      "kind": "transcript",
+      "path": "scripts/transcripts/sample_guide.txt",
+      "purpose": "sample"
+    }
+  ]
+}

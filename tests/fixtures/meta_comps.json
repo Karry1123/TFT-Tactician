@@ -1,0 +1,388 @@
+{
+  "patch": "DEMO-ONLY",
+  "region": "CN",
+  "demo": true,
+  "components": [
+    {
+      "id": "sword",
+      "name": "暴风大剑"
+    },
+    {
+      "id": "bow",
+      "name": "反曲之弓"
+    },
+    {
+      "id": "rod",
+      "name": "无用大棒"
+    },
+    {
+      "id": "tear",
+      "name": "女神之泪"
+    },
+    {
+      "id": "vest",
+      "name": "锁子甲"
+    },
+    {
+      "id": "cloak",
+      "name": "负极斗篷"
+    },
+    {
+      "id": "belt",
+      "name": "巨人腰带"
+    },
+    {
+      "id": "glove",
+      "name": "拳套"
+    }
+  ],
+  "items": [
+    {
+      "id": "rageblade",
+      "name": "鬼索的狂暴之刃",
+      "components": [
+        "bow",
+        "rod"
+      ]
+    },
+    {
+      "id": "shojin",
+      "name": "朔极之矛",
+      "components": [
+        "sword",
+        "tear"
+      ]
+    },
+    {
+      "id": "warmog",
+      "name": "狂徒铠甲",
+      "components": [
+        "belt",
+        "belt"
+      ]
+    },
+    {
+      "id": "infinity",
+      "name": "无尽之刃",
+      "components": [
+        "sword",
+        "glove"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "scout",
+      "name": "示例·斥候",
+      "cost": 1,
+      "traits": [
+        "射手"
+      ]
+    },
+    {
+      "id": "guard",
+      "name": "示例·守卫",
+      "cost": 1,
+      "traits": [
+        "堡垒"
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "示例·法师",
+      "cost": 2,
+      "traits": [
+        "法师"
+      ]
+    },
+    {
+      "id": "ranger",
+      "name": "示例·游侠",
+      "cost": 4,
+      "traits": [
+        "射手"
+      ]
+    },
+    {
+      "id": "warden",
+      "name": "示例·铁卫",
+      "cost": 4,
+      "traits": [
+        "堡垒"
+      ]
+    },
+    {
+      "id": "sage",
+      "name": "示例·贤者",
+      "cost": 4,
+      "traits": [
+        "法师"
+      ]
+    },
+    {
+      "id": "dragon",
+      "name": "示例·龙王",
+      "cost": 5,
+      "traits": [
+        "法师"
+      ]
+    }
+  ],
+  "augments": [
+    {
+      "id": "attack",
+      "name": "示例·攻击强化",
+      "tier": "gold"
+    },
+    {
+      "id": "mana",
+      "name": "示例·法力强化",
+      "tier": "silver"
+    },
+    {
+      "id": "legend",
+      "name": "示例·传奇之力",
+      "tier": "prismatic"
+    }
+  ],
+  "schemaVersion": 1,
+  "revision": 1,
+  "updatedAt": "2026-10-01T00:00:00Z",
+  "sources": [
+    {
+      "id": "demo",
+      "url": "https://example.com/tft-demo",
+      "title": "内置示例，不代表真实国服版本攻略",
+      "retrievedAt": "2026-10-01T00:00:00Z"
+    }
+  ],
+  "comps": [
+    {
+      "id": "ranger-line",
+      "name": "示例·游侠堡垒",
+      "tier": "A",
+      "units": [
+        "ranger",
+        "warden",
+        "guard"
+      ],
+      "carryId": "ranger",
+      "keyItems": [
+        {
+          "itemId": "rageblade",
+          "holderId": "ranger",
+          "priority": 1
+        },
+        {
+          "itemId": "infinity",
+          "holderId": "ranger",
+          "priority": 2
+        },
+        {
+          "itemId": "warmog",
+          "holderId": "warden",
+          "priority": 3
+        }
+      ],
+      "augmentCompatibility": [
+        {
+          "augmentId": "attack",
+          "rating": 1.0
+        },
+        {
+          "augmentId": "mana",
+          "rating": -0.5
+        },
+        {
+          "augmentId": "legend",
+          "rating": 0.3
+        }
+      ],
+      "milestones": [
+        {
+          "stage": "3-2",
+          "unitIds": [
+            "guard",
+            "scout"
+          ],
+          "stars": 2,
+          "advice": "过渡核心必须二星；未达标时先稳住场面。"
+        },
+        {
+          "stage": "4-1",
+          "unitIds": [
+            "ranger"
+          ],
+          "stars": 2,
+          "advice": "主输出必须二星；先找到替换牌，再出售过渡持装者。"
+        }
+      ],
+      "transition": {
+        "earlyUnitIds": [
+          "guard",
+          "scout"
+        ],
+        "itemHolderIds": [
+          "ranger",
+          "warden",
+          "guard",
+          "scout"
+        ],
+        "minimumLevel": 7,
+        "minimumGold": 20
+      },
+      "sourceIds": [
+        "demo"
+      ]
+    },
+    {
+      "id": "sage-line",
+      "name": "示例·法师铁卫",
+      "tier": "S",
+      "units": [
+        "sage",
+        "warden",
+        "guard"
+      ],
+      "carryId": "sage",
+      "keyItems": [
+        {
+          "itemId": "shojin",
+          "holderId": "sage",
+          "priority": 1
+        },
+        {
+          "itemId": "warmog",
+          "holderId": "warden",
+          "priority": 2
+        }
+      ],
+      "augmentCompatibility": [
+        {
+          "augmentId": "attack",
+          "rating": -0.5
+        },
+        {
+          "augmentId": "mana",
+          "rating": 1.0
+        },
+        {
+          "augmentId": "legend",
+          "rating": 0.4
+        }
+      ],
+      "milestones": [
+        {
+          "stage": "3-2",
+          "unitIds": [
+            "guard",
+            "mage"
+          ],
+          "stars": 2,
+          "advice": "过渡核心必须二星；未达标时先稳住场面。"
+        },
+        {
+          "stage": "4-1",
+          "unitIds": [
+            "sage"
+          ],
+          "stars": 2,
+          "advice": "主输出必须二星；先找到替换牌，再出售过渡持装者。"
+        }
+      ],
+      "transition": {
+        "earlyUnitIds": [
+          "guard",
+          "mage"
+        ],
+        "itemHolderIds": [
+          "sage",
+          "warden",
+          "guard",
+          "mage"
+        ],
+        "minimumLevel": 7,
+        "minimumGold": 20
+      },
+      "sourceIds": [
+        "demo"
+      ]
+    },
+    {
+      "id": "dragon-line",
+      "name": "示例·五费转型",
+      "tier": "A",
+      "units": [
+        "dragon",
+        "sage",
+        "warden",
+        "guard"
+      ],
+      "carryId": "dragon",
+      "keyItems": [
+        {
+          "itemId": "shojin",
+          "holderId": "dragon",
+          "priority": 1
+        },
+        {
+          "itemId": "rageblade",
+          "holderId": "dragon",
+          "priority": 2
+        },
+        {
+          "itemId": "warmog",
+          "holderId": "warden",
+          "priority": 3
+        }
+      ],
+      "augmentCompatibility": [
+        {
+          "augmentId": "mana",
+          "rating": 0.8
+        },
+        {
+          "augmentId": "legend",
+          "rating": 1.0
+        }
+      ],
+      "milestones": [
+        {
+          "stage": "3-2",
+          "unitIds": [
+            "guard",
+            "mage"
+          ],
+          "stars": 2,
+          "advice": "过渡核心必须二星；未达标时先稳住场面。"
+        },
+        {
+          "stage": "4-1",
+          "unitIds": [
+            "dragon"
+          ],
+          "stars": 2,
+          "advice": "主输出必须二星；先找到替换牌，再出售过渡持装者。"
+        }
+      ],
+      "transition": {
+        "earlyUnitIds": [
+          "guard",
+          "mage"
+        ],
+        "itemHolderIds": [
+          "dragon",
+          "sage",
+          "warden",
+          "guard",
+          "mage"
+        ],
+        "minimumLevel": 8,
+        "minimumGold": 20
+      },
+      "sourceIds": [
+        "demo"
+      ]
+    }
+  ]
+}
