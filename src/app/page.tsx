@@ -8,6 +8,11 @@ import { AugmentAdvisor } from "@/components/augment-advisor";
 import { evaluateComps, evaluatePivots } from "@/engine/evaluator";
 import { databaseSchema, evaluationStateSchema, type AugmentAdvice, type DecisionLog, type EvaluationState, type MetaDatabase, type OwnedUnit } from "@/types/tft";
 import { z } from "zod";
+import bundledData from "../../public/data/meta_comps.json";
+
+// Render the complete cockpit in the static export, then refresh its data in the browser.
+// Validate the bundled snapshot too: a bad deployment must fail during the build.
+const bundledDatabase = databaseSchema.parse(bundledData);
 
 const initial: EvaluationState = { stage: "2-1", hp: 100, gold: 20, level: 4, augmentIds: [], components: {}, inventory: [], currentCompId: null, unexpectedUnitId: null };
 const STORAGE = "tft-tactician-session-v1";
@@ -15,7 +20,7 @@ const savedSchema = z.object({ patch: z.string(), state: evaluationStateSchema, 
 const stages = Array.from({ length: 6 }, (_, i) => Array.from({ length: 7 }, (_, j) => `${i + 2}-${j + 1}`)).flat();
 
 export default function Page() {
-  const [db, setDb] = useState<MetaDatabase | null>(null);
+  const [db, setDb] = useState<MetaDatabase>(bundledDatabase);
   const [state, setState] = useState<EvaluationState>(initial);
   const [logs, setLogs] = useState<DecisionLog[]>([]);
   const [error, setError] = useState("");
@@ -34,7 +39,7 @@ export default function Page() {
       setRestored(false); setDb(parsed);
     } catch (e) {
       if (signal?.aborted) return;
-      setError(`静态阵容库加载失败：${e instanceof Error ? e.message : "未知错误"}`);
+      setError(`数据刷新失败，继续使用已加载的阵容库：${e instanceof Error ? e.message : "未知错误"}`);
     } finally { if (!signal?.aborted) setLoading(false); }
   }
   useEffect(() => { const controller = new AbortController(); void loadData(controller.signal); return () => controller.abort(); }, []);
@@ -97,7 +102,7 @@ export default function Page() {
       <div><p className="mb-1 text-xs uppercase tracking-[0.25em] text-cyan-300">CHINA · LOCAL ENGINE</p><h1 className="text-2xl font-bold md:text-3xl">TFT-Tactician <span className="font-normal text-slate-400">战术台</span></h1><p className="mt-2 text-sm text-slate-400">阶段决策 · 装备规划 · 实时转型</p></div>
       <div className="flex flex-wrap items-center gap-3"><span className="text-sm text-slate-400">{db ? `${db.patch} / v${db.revision}` : "等待阵容库"}</span><Button variant="outline" disabled={loading} onClick={() => void loadData()}><RefreshCw size={16} />刷新数据</Button></div>
     </header>
-    {loading && <p role="status" className="panel mb-4">正在加载静态阵容库…</p>}
+    {loading && <p role="status" className="panel mb-4">战术台已就绪，正在检查最新阵容数据…</p>}
     {error && <p role="alert" className="panel mb-4 border-red-800 text-red-300">{error}</p>}
     {notice && <p role="status" className="mb-4 text-sm text-cyan-200">{notice}</p>}
     {db?.demo && <p className="panel mb-5 border-amber-700 text-sm text-amber-200">教学阵容库：棋子与海克斯目录为当前版本资料，阵容攻略为原创教学样例，不代表实盘胜率或国服强度统计。</p>}
@@ -108,10 +113,21 @@ export default function Page() {
         <label><span className="label">当前目标</span><select className="w-full" value={state.currentCompId ?? ""} onChange={e => patchState({ currentCompId: e.target.value || null })}><option value="">未锁定</option>{db.comps.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
         <label><span className="label">意外五费</span><select className="w-full" value={state.unexpectedUnitId ?? ""} onChange={e => patchState({ unexpectedUnitId: e.target.value || null })}><option value="">无</option>{db.units.filter(x => x.cost === 5 && state.inventory.some(u => u.unitId === x.id)).map(u => <option key={u.id} value={u.id}>{u.name}</option>)}</select></label>
       </section>
-      <AugmentAdvisor key={`${db.patch}:${db.revision}:${state.stage}:${session}`} db={db} state={state} onCommit={(advice: AugmentAdvice) => logDecision(advice.comp.id, advice.score, advice.hypotheticalState)} />
+      <nav className="mb-4 flex flex-wrap gap-3 text-sm text-cyan-200" aria-label="海克斯工具导航">
+        <a className="rounded-lg border border-cyan-800 px-3 py-2" href="#augment-advisor">海克斯三选一 / 刷新助手</a>
+        <a className="rounded-lg border border-cyan-800 px-3 py-2" href="#owned-augments">全部 / 银色 / 金色 / 彩色 · 搜索</a>
+      </nav>
+      <div id="augment-advisor" className="scroll-mt-4">
+        <AugmentAdvisor key={`${db.patch}:${db.revision}:${state.stage}:${session}`} db={db} state={state} onCommit={(advice: AugmentAdvice) => logDecision(advice.comp.id, advice.score, advice.hypotheticalState)} />
+      </div>
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(320px,0.9fr)_minmax(400px,1.3fr)_minmax(320px,0.9fr)]">
         <div className="space-y-5">
-          <section className="panel"><h2 className="mb-3 font-semibold">已选海克斯 · 最多 3 个</h2><div className="mb-3 flex flex-wrap gap-2">{state.augmentIds.map(id => <Button key={id} onClick={() => toggleAugment(id)} aria-label={`移除${db.augments.find(a => a.id === id)?.name}`}>{db.augments.find(a => a.id === id)?.name} ×</Button>)}</div><AugmentPicker augments={db.augments} selected={state.augmentIds} disabledIds={state.augmentIds.length === 3 ? db.augments.filter(a => !state.augmentIds.includes(a.id)).map(a => a.id) : []} onPick={toggleAugment} /></section>
+          <section id="owned-augments" className="panel scroll-mt-4">
+            <h2 className="mb-3 font-semibold">已选海克斯 · 最多 3 个</h2>
+            <p className="mb-3 text-xs text-slate-400">按档位筛选或搜索名称与关键词；三选一候选请在刷新助手中录入。</p>
+            <div className="mb-3 flex flex-wrap gap-2">{state.augmentIds.map(id => <Button key={id} onClick={() => toggleAugment(id)} aria-label={`移除${db.augments.find(a => a.id === id)?.name}`}>{db.augments.find(a => a.id === id)?.name} ×</Button>)}</div>
+            <AugmentPicker augments={db.augments} selected={state.augmentIds} disabledIds={state.augmentIds.length === 3 ? db.augments.filter(a => !state.augmentIds.includes(a.id)).map(a => a.id) : []} onPick={toggleAugment} />
+          </section>
           <section className="panel"><h2 className="mb-3 font-semibold">未合成散件</h2><p className="mb-3 text-xs text-slate-400">只填写装备栏中的散件；已装备成装在单位卡中录入。</p><div className="grid grid-cols-2 gap-2">{db.components.map(c => <div key={c.id} className="rounded-xl bg-slate-800 p-2"><p className="mb-2 text-sm">{c.name}</p><div className="flex items-center justify-between"><Button variant="outline" aria-label={`减少${c.name}`} disabled={!state.components[c.id]} onClick={() => patchState({ components: { ...state.components, [c.id]: Math.max(0, (state.components[c.id] ?? 0) - 1) } })}>−</Button><span className="tabular-nums">{state.components[c.id] ?? 0}</span><Button variant="outline" aria-label={`增加${c.name}`} disabled={(state.components[c.id] ?? 0) >= 99} onClick={() => patchState({ components: { ...state.components, [c.id]: (state.components[c.id] ?? 0) + 1 } })}>+</Button></div></div>)}</div></section>
           <section className="panel"><h2 className="mb-3 flex items-center gap-2 font-semibold"><Swords size={18} />场上 / 板凳</h2><input className="mb-3 w-full" aria-label="搜索单位" placeholder="搜索单位或羁绊" value={query} onChange={e => setQuery(e.target.value)} /><div className="mb-4 flex max-h-48 flex-wrap gap-2 overflow-y-auto">{db.units.filter(u => `${u.name} ${u.traits.join(' ')}`.includes(query)).map(u => <Button key={u.id} variant="outline" disabled={state.inventory.length >= 30} onClick={() => addUnit(u.id)}>{u.name}<span className="text-xs text-amber-300">{u.cost}G</span></Button>)}</div>
             <div className="space-y-3">{state.inventory.map(u => <div key={u.instanceId} className="rounded-xl border border-slate-700 p-3"><div className="mb-2 flex items-center justify-between"><span className="text-sm font-medium">{unitName(u.unitId)}</span><Button variant="outline" aria-label={`移除${unitName(u.unitId)}`} onClick={() => setState(s => ({ ...s, inventory: s.inventory.filter(x => x.instanceId !== u.instanceId), unexpectedUnitId: s.unexpectedUnitId === u.unitId && !s.inventory.some(x => x.instanceId !== u.instanceId && x.unitId === u.unitId) ? null : s.unexpectedUnitId }))}><Trash2 size={14} /></Button></div><div className="mb-2 flex gap-2"><select aria-label={`${unitName(u.unitId)}星级`} value={u.stars} onChange={e => editUnit(u.instanceId, { stars: Number(e.target.value) as OwnedUnit['stars'] })}>{[1,2,3].map(n => <option key={n} value={n}>{n} 星</option>)}</select><select aria-label={`${unitName(u.unitId)}位置`} value={u.location} onChange={e => editUnit(u.instanceId, { location: e.target.value as OwnedUnit['location'] })}><option value="board">场上</option><option value="bench">板凳</option></select></div>

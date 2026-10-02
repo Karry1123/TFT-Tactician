@@ -20,7 +20,7 @@ export function AugmentPicker({ augments, selected, disabledIds = [], onPick }: 
   const filtered = useMemo(() => filterAugments(augments, tier, query), [augments, tier, query]);
   return <div>
     <div role="group" aria-label="海克斯档位筛选" className="mb-3 flex flex-wrap gap-2">
-      {(["all", "silver", "gold", "prismatic"] as const).map(t => <Button key={t} variant={tier === t ? "default" : "outline"} aria-pressed={tier === t} onClick={() => setTier(t)}>{t === "all" ? "全部" : `${labels[t]}海克斯`}</Button>)}
+      {(["all", "silver", "gold", "prismatic"] as const).map(t => <Button key={t} variant={tier === t ? "default" : "outline"} aria-pressed={tier === t} onClick={() => setTier(t)}>{t === "all" ? "全部" : labels[t]}</Button>)}
     </div>
     <label htmlFor={id} className="label">搜索中文名称、羁绊或关键词</label>
     <input id={id} className="mb-2 w-full" value={query} onChange={e => setQuery(e.target.value)} placeholder="例如：经济、纹章、装备" />

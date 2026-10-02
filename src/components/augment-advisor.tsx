@@ -18,7 +18,7 @@ export function AugmentAdvisor({ db, state, onCommit }: { db: MetaDatabase; stat
     catch (e) { return { advice: [], error: e instanceof Error ? e.message : "无法评估" }; }
   }, [db, state, offers, rerolls, available]);
   return <section className="panel mb-5" aria-label="海克斯三选一与刷新决策">
-    <h2 className="mb-2 text-lg font-semibold">海克斯三选一 / 刷新决策</h2>
+    <h2 className="mb-2 text-lg font-semibold">海克斯三选一 / 刷新助手</h2>
     <p className="mb-4 text-sm text-slate-400">在 2-1、3-2、4-2 输入三项。共享下方散件、场上与板凳状态；评分快照包含已选海克斯。评分是适配度，不是胜率或刷新概率。</p>
     {!available ? <p className="text-sm text-amber-200">当前不是开放的海克斯选择节点，或本阶段已经完成选择。可在下方修改已选海克斯。</p> : <>
       <div className="mb-4 grid gap-3 md:grid-cols-3">
