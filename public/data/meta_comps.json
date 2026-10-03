@@ -5566,37 +5566,37 @@
     }
   ],
   "schemaVersion": 1,
-  "revision": 4,
-  "updatedAt": "2026-10-02T09:08:09.823159Z",
+  "revision": 5,
+  "updatedAt": "2026-10-03T08:41:14.068428Z",
   "sources": [
     {
       "id": "sample_guide",
       "url": "repo://scripts/transcripts/sample_guide.txt",
       "title": "原创中文教学攻略样例（非实盘统计来源）",
-      "retrievedAt": "2026-10-02T09:08:09.823159Z"
+      "retrievedAt": "2026-10-03T08:41:14.068428Z"
     },
     {
       "id": "reroll_guide",
       "url": "repo://scripts/transcripts/reroll_guide.txt",
       "title": "原创低费慢搜与止损教学",
-      "retrievedAt": "2026-10-02T09:08:09.823159Z"
+      "retrievedAt": "2026-10-03T08:41:14.068428Z"
     },
     {
       "id": "ap_guide",
       "url": "repo://scripts/transcripts/ap_guide.txt",
       "title": "原创法系八级运营教学",
-      "retrievedAt": "2026-10-02T09:08:09.823159Z"
+      "retrievedAt": "2026-10-03T08:41:14.068428Z"
     },
     {
       "id": "ad_fast9_guide",
       "url": "repo://scripts/transcripts/ad_fast9_guide.txt",
       "title": "原创物理灵活过渡与九级上限教学",
-      "retrievedAt": "2026-10-02T09:08:09.823159Z"
+      "retrievedAt": "2026-10-03T08:41:14.068428Z"
     }
   ],
   "comps": [
     {
-      "id": "ahri_ap",
+      "id": "ahri_ap_fast8",
       "name": "八级阿狸法系",
       "tier": "A",
       "units": [
@@ -5640,23 +5640,23 @@
       "augmentCompatibility": [
         {
           "augmentId": "pandoras_items_2",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "caretakers_favor",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "epic_rolldown",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "shopping_spree",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "radiant_relics",
-          "rating": 1.0
+          "rating": 0.8
         }
       ],
       "milestones": [
@@ -5677,7 +5677,7 @@
             "karma"
           ],
           "stars": 2,
-          "advice": "需要约里克或奥恩这样的过渡前排二星，卡尔玛保持二星。"
+          "advice": "约里克或奥恩至少一个二星，卡尔玛保持二星，避免空着装备等阿狸。"
         }
       ],
       "transition": {
@@ -5689,10 +5689,10 @@
         ],
         "itemHolderIds": [
           "karma",
-          "ornn",
           "yorick",
-          "ahri",
-          "taric"
+          "ornn",
+          "taric",
+          "ahri"
         ],
         "minimumLevel": 8,
         "minimumGold": 20
@@ -5703,9 +5703,9 @@
       ]
     },
     {
-      "id": "ashe_ad",
-      "name": "九级艾希高费上限",
-      "tier": "A",
+      "id": "ashe_ad_fast9",
+      "name": "九级艾希物理上限",
+      "tier": "S",
       "units": [
         "ashe",
         "maokai",
@@ -5733,38 +5733,32 @@
           "itemId": "last_whisper",
           "holderId": "ashe",
           "priority": 3
-        },
-        {
-          "itemId": "warmog",
-          "holderId": "taric",
-          "priority": 4
-        },
-        {
-          "itemId": "gargoyle",
-          "holderId": "taric",
-          "priority": 5
         }
       ],
       "augmentCompatibility": [
         {
           "augmentId": "focused_fire",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "celestial_blessing_1",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "explosive_growth",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "pandoras_items_2",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "shopping_spree",
-          "rating": 1.0
+          "rating": 0.8
+        },
+        {
+          "augmentId": "golden_egg",
+          "rating": 0.3
         }
       ],
       "milestones": [
@@ -5775,7 +5769,7 @@
             "leona"
           ],
           "stars": 2,
-          "advice": "争取霞与蕾欧娜二星。"
+          "advice": "争取霞与蕾欧娜二星；达不到就花钱补前排与输出。"
         },
         {
           "stage": "4-1",
@@ -5795,10 +5789,8 @@
           "leona"
         ],
         "itemHolderIds": [
-          "xayah",
           "sivir",
-          "leona",
-          "rakan",
+          "xayah",
           "ashe",
           "taric"
         ],
@@ -5813,7 +5805,7 @@
     {
       "id": "veigar_reroll",
       "name": "维迦低费追三",
-      "tier": "A",
+      "tier": "B",
       "units": [
         "veigar",
         "leblanc",
@@ -5854,19 +5846,19 @@
       "augmentCompatibility": [
         {
           "augmentId": "pandoras_bench",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "pandoras_items_1",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "healing_orbs_1",
-          "rating": 1.0
+          "rating": 0.8
         },
         {
           "augmentId": "radiant_relics",
-          "rating": 1.0
+          "rating": 0.8
         }
       ],
       "milestones": [
@@ -5877,7 +5869,7 @@
             "ornn"
           ],
           "stars": 2,
-          "advice": "维迦与奥恩二星。"
+          "advice": "维迦与奥恩二星；连续大败就花钱补质量。"
         },
         {
           "stage": "4-1",
