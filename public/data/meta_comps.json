@@ -5566,32 +5566,32 @@
     }
   ],
   "schemaVersion": 1,
-  "revision": 5,
-  "updatedAt": "2026-10-03T08:41:14.068428Z",
+  "revision": 6,
+  "updatedAt": "2026-10-04T08:56:29.048966Z",
   "sources": [
     {
       "id": "sample_guide",
       "url": "repo://scripts/transcripts/sample_guide.txt",
       "title": "原创中文教学攻略样例（非实盘统计来源）",
-      "retrievedAt": "2026-10-03T08:41:14.068428Z"
+      "retrievedAt": "2026-10-04T08:56:29.048966Z"
     },
     {
       "id": "reroll_guide",
       "url": "repo://scripts/transcripts/reroll_guide.txt",
       "title": "原创低费慢搜与止损教学",
-      "retrievedAt": "2026-10-03T08:41:14.068428Z"
+      "retrievedAt": "2026-10-04T08:56:29.048966Z"
     },
     {
       "id": "ap_guide",
       "url": "repo://scripts/transcripts/ap_guide.txt",
       "title": "原创法系八级运营教学",
-      "retrievedAt": "2026-10-03T08:41:14.068428Z"
+      "retrievedAt": "2026-10-04T08:56:29.048966Z"
     },
     {
       "id": "ad_fast9_guide",
       "url": "repo://scripts/transcripts/ad_fast9_guide.txt",
       "title": "原创物理灵活过渡与九级上限教学",
-      "retrievedAt": "2026-10-03T08:41:14.068428Z"
+      "retrievedAt": "2026-10-04T08:56:29.048966Z"
     }
   ],
   "comps": [
@@ -5644,11 +5644,11 @@
         },
         {
           "augmentId": "caretakers_favor",
-          "rating": 0.8
+          "rating": 0.7
         },
         {
           "augmentId": "epic_rolldown",
-          "rating": 0.8
+          "rating": 0.7
         },
         {
           "augmentId": "shopping_spree",
@@ -5667,32 +5667,30 @@
             "ornn"
           ],
           "stars": 2,
-          "advice": "卡尔玛与奥恩二星；达不到且持续大败就小搜稳血。"
+          "advice": "3-2卡尔玛与奥恩必须二星，达不到且持续大败就小搜稳血。"
         },
         {
           "stage": "4-1",
           "unitIds": [
-            "yorick",
-            "ornn",
-            "karma"
+            "karma",
+            "ornn"
           ],
           "stars": 2,
-          "advice": "约里克或奥恩至少一个二星，卡尔玛保持二星，避免空着装备等阿狸。"
+          "advice": "4-1卡尔玛保持二星，奥恩或约里克至少一个二星，避免空着装备等阿狸。"
         }
       ],
       "transition": {
         "earlyUnitIds": [
           "karma",
+          "leblanc",
           "yorick",
-          "ornn",
-          "leblanc"
+          "ornn"
         ],
         "itemHolderIds": [
-          "karma",
-          "yorick",
-          "ornn",
+          "ahri",
           "taric",
-          "ahri"
+          "karma",
+          "ornn"
         ],
         "minimumLevel": 8,
         "minimumGold": 20
@@ -5704,7 +5702,7 @@
     },
     {
       "id": "ashe_ad_fast9",
-      "name": "九级艾希物理上限",
+      "name": "九级艾希物理",
       "tier": "S",
       "units": [
         "ashe",
@@ -5738,11 +5736,11 @@
       "augmentCompatibility": [
         {
           "augmentId": "focused_fire",
-          "rating": 0.8
+          "rating": 0.7
         },
         {
           "augmentId": "celestial_blessing_1",
-          "rating": 0.8
+          "rating": 0.7
         },
         {
           "augmentId": "explosive_growth",
@@ -5758,7 +5756,7 @@
         },
         {
           "augmentId": "golden_egg",
-          "rating": 0.3
+          "rating": 0.4
         }
       ],
       "milestones": [
@@ -5769,7 +5767,7 @@
             "leona"
           ],
           "stars": 2,
-          "advice": "争取霞与蕾欧娜二星；达不到就花钱补前排与输出。"
+          "advice": "3-2霞与蕾欧娜二星以稳定前中期血量。"
         },
         {
           "stage": "4-1",
@@ -5778,7 +5776,7 @@
             "xayah"
           ],
           "stars": 2,
-          "advice": "争取洛与已有过渡主C二星。"
+          "advice": "4-1洛与霞二星，血量低于35时优先八级补二星，不盲目冲九。"
         }
       ],
       "transition": {
@@ -5789,10 +5787,9 @@
           "leona"
         ],
         "itemHolderIds": [
-          "sivir",
-          "xayah",
           "ashe",
-          "taric"
+          "xayah",
+          "sivir"
         ],
         "minimumLevel": 9,
         "minimumGold": 30
@@ -5804,8 +5801,8 @@
     },
     {
       "id": "veigar_reroll",
-      "name": "维迦低费追三",
-      "tier": "B",
+      "name": "五级慢搜维迦",
+      "tier": "A",
       "units": [
         "veigar",
         "leblanc",
@@ -5850,11 +5847,11 @@
         },
         {
           "augmentId": "pandoras_items_1",
-          "rating": 0.8
+          "rating": 0.7
         },
         {
           "augmentId": "healing_orbs_1",
-          "rating": 0.8
+          "rating": 0.6
         },
         {
           "augmentId": "radiant_relics",
@@ -5869,7 +5866,7 @@
             "ornn"
           ],
           "stars": 2,
-          "advice": "维迦与奥恩二星；连续大败就花钱补质量。"
+          "advice": "3-2维迦与奥恩必须二星，若连败失血过快允许破利息稳质量。"
         },
         {
           "stage": "4-1",
@@ -5878,7 +5875,7 @@
             "ornn"
           ],
           "stars": 2,
-          "advice": "维迦与奥恩仍需至少二星，随后视来牌追三。"
+          "advice": "4-1维迦与奥恩仍需至少二星；若同行多或数量差太多应停止死搜评估转阿狸。"
         }
       ],
       "transition": {
